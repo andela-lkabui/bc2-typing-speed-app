@@ -4,41 +4,72 @@
 		<title>Typing speed bootcamp project</title>
 		<script type='text/javascript' src='jquery-2.1.4.min.js'></script>
 		<script type = 'text/javascript' src = 'typing_speed.js'></script>
+		<script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/typing_speed.css"/>
 		
 	</head>
 	<body>
-
 		<div>
 			<div id = 'count_corner'>
-				<p class = 'h3'>Typer's name:</p>
+				<p class = 'h3'>User's name:</p>
 			</div>	
 			<hr>
 		</div>
 
 		<div>
-			<table border = '1'>
+			<table border = '0'>
 				<tbody>
 					<tr>
-						<td>
-							<div>
-								<p id ='score_paragraph'></p>
-								<input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'>
+						<td class='control_col'>
+
+							<div class = 'score_div'>
+								<table border = '0'>
+									<tbody>
+										<tr>
+											<td>
+												<table border='1' cellspacing='0' id = 'results_table'>
+													<tbody>
+														<tr><td>Accuracy:</td> <td id = 'accuracy_score'> - </td> </tr>
+														<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
+														<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
+														<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
+														<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
+													</tbody>
+												</table>
+										</tr>
+										<tr>
+											<td><input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'></td>
+										</tr>
+									</tbody>
+								</table>
+
 							</div>
+
 						</td>
-						<td id = 'loading_cell'>
-							<textarea id = 'loading_area' ></textarea>
+						<td class = 'text_col'>
+							<textarea id = 'loading_area' disabled='disabled'></textarea>
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<div class='controls'>
-								<p id ='counter_paragraph'>__ s</p>
-								<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
-								<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
+						<td class='control_col'>
+							<div>
+								<table border ='0'>
+									<tbody>
+										<tr>
+											<td><p id ='counter_paragraph'> _ _ </p></td>
+										</tr>
+										<tr>
+											<td><input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'></td>
+										</tr>
+										<tr>
+											<td><input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'></td>
+										</tr>
+									</tbody>
+								</table>
+								
 							</div>
 						</td>
-						<td>
+						<td class = 'text_col'>
 							<textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea>
 						</td>
 					</tr>
