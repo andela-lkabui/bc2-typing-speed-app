@@ -1,0 +1,47 @@
+.col-1-3{box-sizing: border-box;text-align: center;}
+.col-1-3 h3{color:white;margin: .8em 0 .2em 0;font-family: 'Open Sans', Arial, sans-serif;font-size: 1.17em; font-weight:bold;}
+#topPagesOL li {list-style-type: decimal;}
+html {position:relative; min-height:100%;}
+body { margin:0 0 490px; }
+footer{color:white;    clear:both;	position: absolute;	left: 0;	bottom: 0;	height: 490px;	z-index: 100;	width: 100%;	background-color: rgb(3, 44, 59);}
+footer a {color:rgb(219, 142, 0) !important;}
+footer h3{padding-bottom:10px;}
+footer #footer {text-align:center;}
+#footGrid1{background-color: rgb(3, 44, 59);}
+#centFoot{border-right: 1px solid rgb(82, 105, 126);border-left: 1px solid rgb(82, 105, 126);}
+#footGrid1 {margin:0;}
+footer #centFoot ol li {text-align: left;margin: 0 0 0 42%; list-style-type: decimal;}
+footer a{text-decoration: none; color:rgb(219, 142, 0) !important;}
+footer a:hover {text-decoration: underline;}
+
+/**************************************************/
+/**************************************************/
+/* awesome header/body/footer template for later*/
+/*
+/* CSS:
+html, body {
+height: 100%;
+margin: 0pt;
+}
+body {
+display: table;
+height: 100%;
+width: 100%;
+}
+header,footer {
+display: table-row;
+height: 1px;
+}
+#container{
+height: auto;
+}
+*/
+/* HTML:
+<body class="Frame">
+    <header><h1>Catchy header</h1></header>
+    <section class="Row Expand"><h2>Awesome content</h2></section>
+    <footer class="Row"><h3>Sticky footer</h3></footer>
+</body>
+/**************************************************/
+/**************************************************/
+

@@ -1,0 +1,82 @@
+* {
+	font-family: Arial;
+}
+
+.h3 {
+	font-style: cursive;
+	font-size: 1.5em;
+	background-color: #cccccc;
+	display: block;
+	margin-bottom: 2em;
+	font-weight: bold;
+	text-align: center;
+}
+
+input {
+	display: inline-block;
+	width: 15em; 
+	height: 3em; 
+
+}
+
+textarea {
+	margin-left: 1em;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	display: inline-block;
+	width: 60em;
+	height: 10em;
+	max-height: 10em;
+	max-width: 60em;
+}
+
+hr {
+	height: 1em;
+	background-color: #000000;
+	width: 90%;
+}
+
+table {
+	margin: auto;
+}
+
+.controls {
+	display: inline-block;
+}
+
+#counter_paragraph {
+	display: inline-block;
+	font-weight: bold;
+	font-family: Arial;
+	font-size: 3em;
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+#score_paragraph {
+	display: inline-block;
+	font-weight: bold;
+	font-family: Arial;
+	font-size: 3em;
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+
+#start_button {
+	display: inline-block;	
+	margin-left: 1em;	
+}
+
+#count_corner {
+	display: block;
+}
+
+#loading_area {
+	background-color: azure;
+	font-weight: bold;
+	max-height: 10em;
+	max-width: 50em;
+	font-size: 1em;
+}
+

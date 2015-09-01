@@ -1,0 +1,10 @@
+body {height:2065px;}
+.ie8{height:2300px;}
+#heading{    text-align:left; margin: 80px auto 0 auto;}
+#heading ul{ padding:18px 0; margin-left:80px;}
+#heading h1{border-bottom: 1px solid gray; text-align:center; padding-bottom:10px; margin-bottom:30px;}
+#wrapHeading{width:80%; max-width:840px;}
+#gWPM_pic{margin:-55px 0 0 250px;}
+#gWPM_pic img{height:auto;}
+#nWPM_pic{margin:-55px 0 -20px 250px;}
+#nWPM_pic img{height:auto;}

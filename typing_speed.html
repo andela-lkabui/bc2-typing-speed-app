@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Typing speed bootcamp project</title>
+		<script type='text/javascript' src='jquery-2.1.4.min.js'></script>
+		<script type = 'text/javascript' src = 'typing_speed.js'></script>
+		<link rel="stylesheet" type="text/css" href="style/typing_speed.css"/>
+		
+	</head>
+	<body>
+
+		<div>
+			<div id = 'count_corner'>
+				<p class = 'h3'>Typer's name:</p>
+			</div>	
+			<hr>
+		</div>
+
+		<div>
+			<table border = '1'>
+				<tbody>
+					<tr>
+						<td>
+							<div>
+								<p id ='score_paragraph'></p>
+								<input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'>
+							</div>
+						</td>
+						<td id = 'loading_cell'>
+							<textarea id = 'loading_area' ></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class='controls'>
+								<p id ='counter_paragraph'>__ s</p>
+								<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
+								<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
+							</div>
+						</td>
+						<td>
+							<textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	
+			<hr>
+	
+		</div>
+
+	</body>
+</html>
