@@ -11,7 +11,8 @@ $(document).ready(function() {
 
 	var charsTyped = 0,
 			count = 13,
-			interval;
+			interval,
+			username;
 
 	$('#start_button').click(function() {
 
@@ -80,44 +81,96 @@ $(document).ready(function() {
 
 
 	$('#submit_button').click(function() {
-
-		$('#submit_button').css('background-color', 'turquoise');
-
 		//stop the count 
 		clearInterval(interval);
 
-		//check differences between the two texts
-		var userText = $('#typing_area').val(),
-				testText = $('#loading_area').text(),
-				currentCount = $('#counter_paragraph').val(),
-				testLength = testText.length,
-				userLength = userText.length;
+		if (charsTyped === 0) {
+			alert("Please type the paragraph (and don't copy - paste)!!");
 
-		for (var z = 0; z < testLength; z += 1) {
-
-			if ( (typeof userText[z]) === 'undefined') {
-				mistakes.count += 1;
-			}
-			else if (userText[z] != testText[z]) {
-				mistakes.count += 1;
-			}
-			else if (userText[z] != testText[z]) {
-				correct.count += 1;
-			}
 		}
+		else {
+
+			$('#submit_button').css('background-color', 'turquoise');
+
+			//check differences between the two texts
+			var userText = $('#typing_area').val(),
+					testText = $('#loading_area').text(),
+					currentCount = $('#counter_paragraph').val(),
+					testLength = testText.length,
+					userLength = userText.length;
+
+			for (var z = 0; z < testLength; z += 1) {
+
+				if ( (typeof userText[z]) === 'undefined') {
+					mistakes.count += 1;
+				}
+				else if (userText[z] != testText[z]) {
+					mistakes.count += 1;
+				}
+				else if (userText[z] != testText[z]) {
+					correct.count += 1;
+				}
+			}
 		
-		console.log(mistakes.count);
+			correct.count = charsTyped - mistakes.count;
 
-		correct.count = charsTyped - mistakes.count;
+			var accuracy = ((correct.count / charsTyped) * 100).toFixed(2),
+					elapsed = 120 - currentCount,
+					gwpm = ( (charsTyped / 5) / (elapsed/60) ),
+					nwpm = gwpm - (mistakes.count / (elapsed/60) );
 
-		//$('#score_paragraph').text('Accuracy: '+ ((correct.count / charsTyped) * 100).toFixed(2) + '%');
-		$('#score_paragraph').text('Chars typed is ' + charsTyped + ', while total(correct+mistakes) is ' + (correct.count+mistakes.count));
+			$('#accuracy_score').text(accuracy + ' %');
+			$('#mistakes').text(mistakes.count);
+			$('#total_key_strokes').text(charsTyped);
+			$('#gwpm').text(gwpm);
+			$('#nwpm').text(nwpm);
 
+			username = prompt('Please give us your name so that we can immortalize you');
+
+			if (username.length < 3) {
+				username = prompt("C'mon ... is that your real name? Don't be shy, go ahead");
+			}
+			else {
+				var scores = {
+					name: username,
+					accuracy: accuracy,
+					mistakes: mistakes.count,
+					total_key_strokes: charsTyped,
+					gwpm: gwpm,
+					nwpm: nwpm
+				}
+
+				var myDataRef = new Firebase('https://torrid-torch-3503.firebaseio.com/');
+				myDataRef.push(scores);
+
+				alert('You have been immortalized ' + username + '!!')
+			}
+			
+
+
+		}
+
+		
+		
 	});
 
 
 	$('#typing_area').keypress(function() {
 		charsTyped += 1;
+	});
+
+	$('#results_table').mouseenter(function() {
+		$('#results_table').css('backdround-color', 'magenta');
+		$('#results_table').css('width', '+=50em');
+		$('#results_table').css('height', '+=30em');
+		//$('#results_table').css('margin-top', '-=30em');
+	});
+
+	$('#results_table').mouseleave(function() {
+		$('#results_table').css('backdround-color', 'none');
+		$('#results_table').css('width', '-=50em');
+		$('#results_table').css('height', '-=30em');
+		//$('#results_table').css('margin-top', '+=30em');
 	});
 
 });
