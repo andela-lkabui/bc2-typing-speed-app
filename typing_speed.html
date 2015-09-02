@@ -12,12 +12,35 @@
 		<div>
 			<div id = 'count_corner'>
 				<p class = 'h3'>User's name:</p>
+				<table>
+					<tbody>
+						<tr>
+							<td><input type = 'submit' value = 'Leaderboard' name = 'leaderboard' id = 'stats_button' ></td>
+							<td><input type = 'submit' value = 'Create Test Paragraph' name = 'create_test_paragraph' id = 'create_paragraph_button' ></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>	
 			<hr>
 		</div>
 
-		<div>
-			<table border = '0'>
+		<div id='stats_div'>
+			<table id = 'stats_table' cellspacing='0' border='1'>
+				<thead>
+					<tr>
+						<td> Rank </td>
+						<td> Name </td>
+						<td> Net WPM Score! </td>
+					</tr>
+				</thead>
+				<tbody id = 'stats_table_tbody'>
+					
+				</tbody>
+			</table>
+		</div>
+
+		<div id ='table_div' class = 'big_toggler'>
+			<table border = '1'>
 				<tbody>
 					<tr>
 						<td class='control_col'>
@@ -28,6 +51,12 @@
 										<tr>
 											<td>
 												<table border='1' cellspacing='0' id = 'results_table'>
+													<thead>
+														<tr>
+															<td>Metric</td>
+															<td>Count/ Score</td>
+														</tr>
+													</thead>
 													<tbody>
 														<tr><td>Accuracy:</td> <td id = 'accuracy_score'> - </td> </tr>
 														<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
@@ -37,9 +66,6 @@
 														<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
 													</tbody>
 												</table>
-										</tr>
-										<tr>
-											<td><input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'></td>
 										</tr>
 									</tbody>
 								</table>
@@ -51,6 +77,10 @@
 							<textarea id = 'loading_area' disabled='disabled'></textarea>
 						</td>
 					</tr>
+					<tr>
+						<td><input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'></td>
+					</tr>
+					<tr colspan='2'></tr>
 					<tr>
 						<td class='control_col'>
 							<div>

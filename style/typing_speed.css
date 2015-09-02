@@ -37,15 +37,24 @@ hr {
 }
 
 table {
-	margin: auto;
+	margin-left: 3em;
+}
+
+table tr td {
+	padding: 0em;
+}
+
+#results_table {
+	padding-left: 0.1em;
+	margin-left: 0.1em;
+	width: 100%;
+	height: 10em;
 }
 
 .score_div {
 	display: block;
 	background: cyan;
-	max-height: 10em;
 	height: 10em;
-	padding-right: 
 }
 
 .control_col {
@@ -81,3 +90,14 @@ table {
 }
 
 
+
+
+#stats_table, #stats_table thead td{
+	border: 0.1em solid black;
+	font-style: cursive;
+	font-size: 2em;
+	font-weight: bold;
+	font-color: gray;
+	padding: 1em;
+	text-align: center;
+}
