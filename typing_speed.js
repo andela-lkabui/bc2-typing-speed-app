@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-	$('#stats_div').toggle();
+	$('#stats_table').toggle();
+	$('#results_table').toggle();
 
 	var mistakes = {
 			count:0,
@@ -59,6 +60,13 @@ $(document).ready(function() {
 
 		interval = setInterval(counter, 1000);
 
+		//enable reset button on start is pressed
+		var resetDisabled = $('#reset_button').attr('disabled');
+
+		if (resetDisabled === 'disabled') {
+			$('#reset_button').removeAttr('disabled');
+		}
+
 	});
 
 
@@ -90,8 +98,10 @@ $(document).ready(function() {
 	$('#submit_button').click(function() {
 		//stop the count 
 		clearInterval(interval);
-	
+
 		$('#submit_button').css('background-color', 'turquoise');
+
+		$('#typing_table').toggle();
 
 			
 		var currentCount = $('#counter_paragraph').val(),
@@ -104,8 +114,8 @@ $(document).ready(function() {
 				testWordLen,
 				userWordLen;
 				
-				console.log('userArray is '+userTextArr);
-				console.log('testArray is '+testTextArr);
+				//console.log('userArray is '+userTextArr);
+				//console.log('testArray is '+testTextArr);
 
 				for (var z = 0; z < testTextArrLen; z +=1) {
 
@@ -143,7 +153,7 @@ $(document).ready(function() {
 
 		charsTyped = (mistakes.count + correct.count);
 
-		console.log('charsTyped: ' + charsTyped + ' correct: ' + correct.count);
+		//console.log('charsTyped: ' + charsTyped + ' correct: ' + correct.count);
 
 		var accuracy = ((correct.count / charsTyped) * 100).toFixed(2),
 					elapsed = 13 - currentCount,
@@ -163,6 +173,8 @@ $(document).ready(function() {
 			$('#total_key_strokes').text(charsTyped);
 			$('#gwpm').text(gwpm);
 			$('#nwpm').text(nwpm);
+
+			$('#results_table').toggle();
 
 			username = prompt('Please give us your name so that we can immortalize you');
 
@@ -188,35 +200,45 @@ $(document).ready(function() {
 		
 	});
 
+	$('#hotspot').mouseenter(function() {
+
+		if ( $('#results_table').is(':visible') ) {
+			$('#results_table').css('backdround-color', 'magenta');
+			$('#results_table').css('font-size', '+=2em');
+			$('#results_table').css('max-width', '50em');
+		}
 	
-	$('#results_table').mouseenter(function() {
-		$('#results_table').css('backdround-color', 'magenta');
-		$('#results_table').css('width', '+=50em');
-		$('#results_table').css('height', '+=30em');
-		//$('#results_table').css('margin-top', '-=30em');
+		if ( $('#stats_table').is(':visible') ) {
+			$('#stats_table').css('backdround-color', 'magenta');
+			$('#stats_table').css('font-size', '+=2em');
+			$('#stats_table').css('max-width', '50em');
+		}
 	});
 
-	$('#results_table').mouseleave(function() {
-		$('#results_table').css('backdround-color', 'none');
-		$('#results_table').css('width', '-=50em');
-		$('#results_table').css('height', '-=30em');
-		//$('#results_table').css('margin-top', '+=30em');
-	});
+	$('#hotspot').mouseleave(function() {
 
+		if ( $('#results_table').is(':visible') ) {
+			$('#results_table').css('backdround-color', 'magenta');
+			$('#results_table').css('font-size', '-=2em');
+		}
+	
+		if ( $('#stats_table').is(':visible') ) {
+			$('#stats_table').css('backdround-color', 'magenta');
+			$('#stats_table').css('font-size', '-=2em');
+		}
+	});
+	
+	
 	$('#stats_button').click(function() {
 		$('#stats_button').css('background-color','turquoise');
-		$('#stats_table').css('background-color', 'turquoise');
+		//$('#stats_table').css('background-color', 'turquoise');
 
-		$('#table_div').toggle();
-		//$('#table_div').toggleClass('big_toggler');
+		$('#results_table').toggle();
 		
-		$('#stats_div').toggle();
-		//$('#stats_div').toggleClass('big_toggler');
-
 		$('#stats_table_tbody tr').remove();
 
 
-		myDataRef.orderByChildKey('nwpm').on('value', function(snapshot) {
+		myDataRef.orderByValue().on('value', function(snapshot) {
 			var childData,
 					inc = 1,
 					rankTD,
@@ -241,11 +263,17 @@ $(document).ready(function() {
 
 			});
 
+			$('#stats_table').toggle();
 
-
-			
 		});
 	});
 
+	$('#reset_button').click(function() {
+		location.reload();
+	});
+
+
+
+	
 });
 
