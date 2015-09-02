@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Typing speed bootcamp project</title>
-		<script type='text/javascript' src='jquery-2.1.4.min.js'></script>
-		<script type = 'text/javascript' src = 'typing_speed.js'></script>
-		<script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
-		<link rel="stylesheet" type="text/css" href="style/typing_speed.css"/>
+ <head>
+	<title>Typing speed bootcamp project</title>
+	<script type='text/javascript' src='jquery-2.1.4.min.js'></script>
+	<script type = 'text/javascript' src = 'typing_speed.js'></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+	<link rel="stylesheet" type="text/css" href="style/typing_speed_bootstrap.css"/>
 		
-	</head>
-	<body>
-		<div>
-			<div id = 'count_corner'>
-				<p class = 'h3'>User's name:</p>
-				<table>
-					<tbody>
-						<tr>
-							<td><input type = 'submit' value = 'Leaderboard' name = 'leaderboard' id = 'stats_button' ></td>
-							<td><input type = 'submit' value = 'Create Test Paragraph' name = 'create_test_paragraph' id = 'create_paragraph_button' ></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>	
-			<hr>
+</head>
+<body>
+
+	<div class="page-header" id ='welcome_header'>
+ 		<h1>Welcome to the typing test app!<small> </small></h1>
+	</div>
+
+
+	<div>
+		<button id = 'stats_button' type="button" class="btn btn-primary">Leaderboard</button>
+		<button id = 'create_button' type="button" class="btn btn-primary">Create a paragraph</button>
+	</div>
+	
+
+	<hr>
+
+	<div id = 'display_div'>
+		<div class = 'col-md-4' id = 'left_hand'>
+
+			<div>
+				<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' disabled='disabled'>
+				<input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'>
+			</div>
+
+			<div>
+				<p id ='counter_paragraph'> _ _ s</p>
+				<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
+				<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
+			</div>
+
 		</div>
 
-		<div id='stats_div'>
-			<table id = 'stats_table' cellspacing='0' border='1'>
+		<div class = 'col-md-8' id = 'hotspot'>
+
+			<table id = 'stats_table' cellspacing='0' border='1' class = 'common_ground'>
 				<thead>
 					<tr>
 						<td> Rank </td>
@@ -34,82 +52,41 @@
 					</tr>
 				</thead>
 				<tbody id = 'stats_table_tbody'>
-					
 				</tbody>
 			</table>
-		</div>
 
-		<div id ='table_div' class = 'big_toggler'>
-			<table border = '1'>
+			<table border='1' cellspacing='0' id = 'results_table' class = 'common_ground'>
+				<thead>
+					<tr>
+						<td>Metric</td>
+						<td>Count/ Score</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>Accuracy:</td> <td id = 'accuracy_score'> - </td> </tr>
+					<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
+					<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
+					<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
+					<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
+					<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
+				</tbody>
+			</table>
+
+			<table id = 'typing_table' class = 'common_ground'>
 				<tbody>
 					<tr>
-						<td class='control_col'>
-
-							<div class = 'score_div'>
-								<table border = '0'>
-									<tbody>
-										<tr>
-											<td>
-												<table border='1' cellspacing='0' id = 'results_table'>
-													<thead>
-														<tr>
-															<td>Metric</td>
-															<td>Count/ Score</td>
-														</tr>
-													</thead>
-													<tbody>
-														<tr><td>Accuracy:</td> <td id = 'accuracy_score'> - </td> </tr>
-														<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
-														<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
-														<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
-														<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
-														<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
-													</tbody>
-												</table>
-										</tr>
-									</tbody>
-								</table>
-
-							</div>
-
-						</td>
-						<td class = 'text_col'>
-							<textarea id = 'loading_area' disabled='disabled'></textarea>
-						</td>
+						<td> <textarea id = 'loading_area' disabled='disabled'></textarea> </td>
 					</tr>
 					<tr>
-						<td><input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'></td>
-					</tr>
-					<tr colspan='2'></tr>
-					<tr>
-						<td class='control_col'>
-							<div>
-								<table border ='0'>
-									<tbody>
-										<tr>
-											<td><p id ='counter_paragraph'> _ _ </p></td>
-										</tr>
-										<tr>
-											<td><input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'></td>
-										</tr>
-										<tr>
-											<td><input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'></td>
-										</tr>
-									</tbody>
-								</table>
-								
-							</div>
-						</td>
-						<td class = 'text_col'>
-							<textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea>
-						</td>
+						<td> <textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea> </td>
 					</tr>
 				</tbody>
 			</table>
-	
-			<hr>
-	
-		</div>
 
+		</div>
+	</div>
+
+	<hr>
+	
 	</body>
 </html>
