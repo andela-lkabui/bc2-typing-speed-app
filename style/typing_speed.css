@@ -1,33 +1,6 @@
+
 * {
 	font-family: Arial;
-}
-
-.h3 {
-	font-style: cursive;
-	font-size: 1.5em;
-	background-color: #cccccc;
-	display: block;
-	margin-bottom: 2em;
-	font-weight: bold;
-	text-align: center;
-}
-
-input {
-	display: block;
-	width: 15em; 
-	height: 3em; 
-	padding-left: 1em;	
-}
-
-textarea {
-	margin-left: 1em;
-	margin-top: 2em;
-	margin-bottom: 2em;
-	width: 60em;
-	height: 10em;
-	max-height: 10em;
-	min-width: 50em;
-	font-size: 1em;
 }
 
 hr {
@@ -36,68 +9,110 @@ hr {
 	width: 90%;
 }
 
-table {
-	margin-left: 3em;
+input {
+	margin: 1em 1em 1em 1em;
+	vertical-align: center;
+	height: 3em;
+	width: 7em;
 }
 
-table tr td {
-	padding: 0em;
+textarea {
+	margin: 0.5em 1em 1em 1em;
+	vertical-align: center;
+	height: 12em;
+	max-height: 12em;
+	width: 54em;
+	max-width: 54em;
 }
 
-#results_table {
-	padding-left: 0.1em;
-	margin-left: 0.1em;
-	width: 100%;
-	height: 10em;
+#welcome_header {
+	text-align: center;
+	font-weight: bold;
+	background-color: #cccccc;
+	margin-left: 5em;
+	margin-right: 5em;
 }
 
-.score_div {
-	display: block;
-	background: cyan;
-	height: 10em;
+#display_div {
+	background-color: red;
+	height: 30em;
+	width: 88em;
+	margin-left: 5em;
+	margin-right: 5em;
 }
 
-.control_col {
-	width: 5em;
+#hotspot {
+	float: right;
+	border: 0.3em solid black;
+	background-color: green;
+	height: 28em;
+	margin-top: 1em;
 }
 
-.text_col {
-	width: 60em;
-	min-width: 50em;	
+#left_hand {
+	float: left;
+	border: 0.3em solid black;
+	background-color: magenta;
+	height: 28em;
+	margin-top: 1em;
+}
+
+.dropdown {
+	margin-left: 5em;
+
+}
+
+#load_button {
+	margin: 1em 1em 1em 1em;
+	width: 14em;
+	float: right;
 }
 
 #counter_paragraph {
-	font-weight: bold;
-	font-family: Arial;
-	font-size: 3em;
-	vertical-align: left;
-}
-
-#score_paragraph {
-	font-weight: bold;
-	font-size: 1em;
-	margin-left: 1em;
-	margin-right: 1em;
-}
-
-#count_corner {
-	display: block;
-}
-
-#loading_area {
-	background-color: azure;
-	font-weight: bold;
-}
-
-
-
-
-#stats_table, #stats_table thead td{
-	border: 0.1em solid black;
-	font-style: cursive;
 	font-size: 2em;
 	font-weight: bold;
-	font-color: gray;
-	padding: 1em;
 	text-align: center;
+	margin: 3em 3em 3em 0.5em;
+	background-color: #0000ff;
+	color: #ffffff;
+	height: 4em;
+}
+
+#stats_button {
+	margin: 1em 1em 1em 5em;
+	vertical-align: center;
+	height: 3em;
+	width: 14em;
+}
+
+#create_button {
+	margin: 1em 1em 1em 1em;
+	vertical-align: center;
+	height: 3em;
+	width: 14em;
+}
+
+.common_ground {
+	background-color: blue;
+	width: 50em;
+	color: #ffffff;
+}
+
+#typing_table {
+	color: #000000;
+}
+
+#typing_table {
+	color: #000000;
+}
+
+#reset_button {
+	float: left;
+}
+#start_button {
+	float: left;
+}
+
+#submit_button {
+	float: right;
 }
