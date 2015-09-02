@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	$('#stats_div').toggle();
+
 	var mistakes = {
 			count:0,
 			words:""
@@ -14,7 +16,8 @@ $(document).ready(function() {
 			interval,
 			username;
 
-	var testText;
+	var testText,
+			myDataRef = new Firebase('https://torrid-torch-3503.firebaseio.com/');
 
 	$('#start_button').click(function() {
 
@@ -178,7 +181,6 @@ $(document).ready(function() {
 					nwpm: nwpm
 				}
 
-				var myDataRef = new Firebase('https://torrid-torch-3503.firebaseio.com/');
 				myDataRef.push(scores);
 
 				alert('You have been immortalized ' + username + '!!')
@@ -199,6 +201,50 @@ $(document).ready(function() {
 		$('#results_table').css('width', '-=50em');
 		$('#results_table').css('height', '-=30em');
 		//$('#results_table').css('margin-top', '+=30em');
+	});
+
+	$('#stats_button').click(function() {
+		$('#stats_button').css('background-color','turquoise');
+		$('#stats_table').css('background-color', 'turquoise');
+
+		$('#table_div').toggle();
+		//$('#table_div').toggleClass('big_toggler');
+		
+		$('#stats_div').toggle();
+		//$('#stats_div').toggleClass('big_toggler');
+
+		$('#stats_table_tbody tr').remove();
+
+
+		myDataRef.orderByChildKey('nwpm').on('value', function(snapshot) {
+			var childData,
+					inc = 1,
+					rankTD,
+					nameTD,
+					scoreTD;
+					
+			snapshot.forEach(function(childSnapshot) {
+
+				// key will be "fred" the first time and "barney" the second time
+	  	  key = childSnapshot.key();
+  	  	// childData will be the actual contents of the child
+    		childData = childSnapshot.val();
+
+    		rankTD = "<td>" + inc + ".</td>";
+				nameTD = "<td>" + childData['name'] + "</td>",
+				scoreTD = "<td>" + childData['nwpm'] + "</td>";
+
+    		//console.log(childData['name']);
+    		$('#stats_table_tbody').append("<tr>" + rankTD + nameTD + scoreTD + "</tr>");
+
+    		inc += 1;
+
+			});
+
+
+
+			
+		});
 	});
 
 });
