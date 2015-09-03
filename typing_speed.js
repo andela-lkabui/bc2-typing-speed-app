@@ -73,18 +73,10 @@ $(document).ready(function() {
 
 	$('#load_button').click(function() {
 
-		if ( $('#stats_table').is(':visible') ) {
-			$('#stats_table').toggle();
-		}
-		if ( $('#results_table').is(':visible') ) {
-			$('#results_table').toggle();
-		}
-
-		if ( !( $('#typing_table').is(':visible')) ) {
-			$('#typing_table').toggle();
-		}
-
-
+		hideIfVisible( $('#stats_table') );
+		hideIfVisible( $('#results_table') );
+		showIfHidden( $('#typing_table') );
+		
 		var texts = new Array();
 
 		myDataRef.orderByValue().on('value', function(snapshot) {
@@ -278,20 +270,13 @@ $(document).ready(function() {
 	
 	$('#stats_button').click(function() {
 		$('#stats_button').css('background-color','turquoise');
-		//$('#stats_table').css('background-color', 'turquoise');
-
-		if ( $('#typing_table').is(':visible') ) {
-			$('#typing_table').toggle();
-		}
-	
-		if ( $('#results_table').is(':visible') ) {
-			$('#results_table').toggle();
-		}
+		
+		hideIfVisible( $('#typing_table') );
+		hideIfVisible( $('#results_table') );
 
 		if ( $('#stats_table').is(':visible') ) {
 			$('#results_table').toggle();
 		}
-
 
 		$('#stats_table_tbody tr').remove();
 
@@ -372,8 +357,21 @@ $(document).ready(function() {
 	$('#typing_area').keypress(function() {
 		charsTyped += 1;
 	});
-	
 
+	$(document).dblclick(function() {
+		hideIfVisible( $('#messenger') );
+	});
 	
 });
 
+var hideIfVisible = function(selector) {
+	if (selector.is(':visible')) {
+		selector.toggle();
+	}
+}
+
+var showIfHidden = function(selector) {
+	if ( !(selector.is(':visible')) ){
+		selector.toggle();
+	}
+}
