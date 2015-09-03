@@ -34,7 +34,7 @@ textarea {
 }
 
 #display_div {
-	background-color: red;
+	background-color: #000000;
 	height: 30em;
 	width: 88em;
 	margin-left: 5em;
@@ -43,16 +43,16 @@ textarea {
 
 #hotspot {
 	float: right;
-	border: 0.3em solid black;
-	background-color: green;
+	border: 0.3em solid beige;
+	background-color: #cccccc;
 	height: 28em;
 	margin-top: 1em;
 }
 
 #left_hand {
 	float: left;
-	border: 0.3em solid black;
-	background-color: magenta;
+	border: 0.3em solid beige;
+	background-color: #cccccc;
 	height: 28em;
 	margin-top: 1em;
 }
@@ -73,7 +73,7 @@ textarea {
 	font-weight: bold;
 	text-align: center;
 	margin: 3em 3em 3em 0.5em;
-	background-color: #0000ff;
+	background-color: #000000;
 	color: #ffffff;
 	height: 4em;
 }
@@ -93,13 +93,9 @@ textarea {
 }
 
 .common_ground {
-	background-color: blue;
+	background-color: #aaaaaa;
 	width: 50em;
 	color: #ffffff;
-}
-
-#typing_table {
-	color: #000000;
 }
 
 #typing_table {
@@ -115,4 +111,15 @@ textarea {
 
 #submit_button {
 	float: right;
+}
+
+.messanger_div {
+	margin-left: 5em;
+	margin-right: 5em;
+}
+
+.table-striped {
+	width: 30em;
+	max-width: 40em;
+	font-size: 1.5em;
 }

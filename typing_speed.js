@@ -2,6 +2,7 @@ $(document).ready(function() {
 
 	$('#stats_table').toggle();
 	$('#results_table').toggle();
+	$('#messenger').toggle();
 
 	var mistakes = {
 			count:0,
@@ -99,82 +100,87 @@ $(document).ready(function() {
 		//stop the count 
 		clearInterval(interval);
 
-		$('#submit_button').css('background-color', 'turquoise');
+		if (charsTyped < 0) {
 
-		$('#typing_table').toggle();
+			alert('Please type in a paragraph. (And dont copy - paste)');
+
+		}
+		else {
+
+			$('#submit_button').css('background-color', 'turquoise');
+
+			$('#typing_table').toggle();
 
 			
-		var currentCount = $('#counter_paragraph').val(),
-				testTextArr = testText.split(/\s/),
-				userText = $('#typing_area').val(),
-				userTextArr = userText.split(/\s+/),
-				testTextArrLen = testTextArr.length,
-				testWord,
-				userWord,
-				testWordLen,
-				userWordLen;
+			var currentCount = $('#counter_paragraph').val(),
+					testTextArr = testText.split(/\s/),
+					userText = $('#typing_area').val(),
+					userTextArr = userText.split(/\s+/),
+					testTextArrLen = testTextArr.length,
+					testWord,
+					userWord,
+					testWordLen,
+					userWordLen;
 				
 				//console.log('userArray is '+userTextArr);
 				//console.log('testArray is '+testTextArr);
 
-				for (var z = 0; z < testTextArrLen; z +=1) {
-
-					if (typeof userTextArr[z] === 'undefined') {
-						mistakes.count += 1;
-					} 
-					else if (userTextArr[z] === testTextArr[z]) {
-							correct.count += userTextArr[z].length;
-								
-					}
-					else {
-						testWord = testTextArr[z];
-						userWord = userTextArr[z];
-
-						//console.log('Test word is '+ testWord +' while user word is ' + userWord);
-						testWordLen = testWord.length,
-						userWordLen = userWord.length;
-
-						if (testWordLen < userWordLen) {
-							mistakes.count += (userWordLen - testWordLen);
-						}
-
-						for (var g = 0; g < testWordLen; g += 1) {
-							if (testWord[g] === userWord[g]) {
-								correct.count += 1;
-							}
-							else {
-								mistakes.count += 1;
-							}
-						}
-					}
-					
-
+			for (var z = 0; z < testTextArrLen; z +=1) {
+				if (typeof userTextArr[z] === 'undefined') {
+					mistakes.count += 1;
+				} 
+				else if (userTextArr[z] === testTextArr[z]) {
+						correct.count += userTextArr[z].length;
+							
 				}
+				else {
+					testWord = testTextArr[z];
+					userWord = userTextArr[z];
+
+					//console.log('Test word is '+ testWord +' while user word is ' + userWord);
+					testWordLen = testWord.length,
+					userWordLen = userWord.length;
+
+					if (testWordLen < userWordLen) {
+						mistakes.count += (userWordLen - testWordLen);
+					}
+
+					for (var g = 0; g < testWordLen; g += 1) {
+						if (testWord[g] === userWord[g]) {
+							correct.count += 1;
+						}
+						else {
+							mistakes.count += 1;
+						}
+					}
+				}
+
+			}
 
 		charsTyped = (mistakes.count + correct.count);
 
 		//console.log('charsTyped: ' + charsTyped + ' correct: ' + correct.count);
 
 		var accuracy = ((correct.count / charsTyped) * 100).toFixed(2),
-					elapsed = 13 - currentCount,
-					gwpm = ( (charsTyped / 5) / (elapsed/60) ),
-					nwpm = gwpm - (mistakes.count / (elapsed/60) );
+				elapsed = 13 - currentCount,
+				gwpm = ( (charsTyped / 5) / (elapsed/60) ),
+				nwpm = gwpm - (mistakes.count / (elapsed/60) );
 
-					if (nwpm < 0) {
-						nwpm = 0;
-					}
+		if (nwpm < 0) {
+			nwpm = 0;
+		}
 
-					gwpm = Math.round(gwpm);
-					nwpm = Math.round(nwpm);
+		gwpm = Math.round(gwpm);
+		nwpm = Math.round(nwpm);
 
-			$('#accuracy_score').text(accuracy + ' %');
-			$('#corrects').text(correct.count);
-			$('#mistakes').text(mistakes.count);
-			$('#total_key_strokes').text(charsTyped);
-			$('#gwpm').text(gwpm);
-			$('#nwpm').text(nwpm);
+		$('#accuracy_score').text(accuracy + ' %');
+		$('#corrects').text(correct.count);
+		$('#mistakes').text(mistakes.count);
+		$('#total_key_strokes').text(charsTyped);
+		$('#gwpm').text(gwpm);
+		$('#nwpm').text(nwpm);
 
-			$('#results_table').toggle();
+		$('#results_table').toggle();
 
 			username = prompt('Please give us your name so that we can immortalize you');
 
@@ -197,7 +203,9 @@ $(document).ready(function() {
 
 				alert('You have been immortalized ' + username + '!!')
 			}
-		
+
+		}
+
 	});
 
 	$('#hotspot').mouseenter(function() {
@@ -233,8 +241,19 @@ $(document).ready(function() {
 		$('#stats_button').css('background-color','turquoise');
 		//$('#stats_table').css('background-color', 'turquoise');
 
-		$('#results_table').toggle();
-		
+		if ( $('#typing_table').is(':visible') ) {
+			$('#typing_table').toggle();
+		}
+	
+		if ( $('#results_table').is(':visible') ) {
+			$('#results_table').toggle();
+		}
+
+		if ( $('#stats_table').is(':visible') ) {
+			$('#results_table').toggle();
+		}
+
+
 		$('#stats_table_tbody tr').remove();
 
 
@@ -272,7 +291,38 @@ $(document).ready(function() {
 		location.reload();
 	});
 
+	$('#create_button').click(function() {
+		var newPara = prompt('Proceed and type in test paragraph');
 
+		if (newPara) {
+
+			if (newPara.length > 45) {
+				myDataRef.set(newPara);
+
+				$('#messenger').addClass('alert alert-success');
+				$('#messenger').text('New paragraph created. You can now use it to determine your typing speed.');
+				$('#messenger').toggle();
+			}
+			else {
+				$('#messenger').addClass('alert alert-warning');
+				$('#messenger').text("The app needs a paragraph that's at least 45 characters long. Come up with something else. :)" );
+				$('#messenger').toggle();
+			}
+			
+		}
+		else {
+			//message: para dodn't contain anything
+			$('#messenger').addClass('alert alert-danger');
+			$('#messenger').text("You didn't type anything. New paragraph not created!");
+			$('#messenger').toggle();
+			
+		}
+	});
+
+	$('#typing_area').keypress(function() {
+		charsTyped += 1;
+	});
+	
 
 	
 });

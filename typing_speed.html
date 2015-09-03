@@ -2,7 +2,7 @@
 <html>
  <head>
 	<title>Typing speed bootcamp project</title>
-	<script type='text/javascript' src='jquery-2.1.4.min.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script type = 'text/javascript' src = 'typing_speed.js'></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -20,8 +20,12 @@
 	<div>
 		<button id = 'stats_button' type="button" class="btn btn-primary">Leaderboard</button>
 		<button id = 'create_button' type="button" class="btn btn-primary">Create a paragraph</button>
+		<div class = 'container'>
+			<div id = 'messenger'  role="alert">Message</div>
+		</div>
+		
 	</div>
-	
+
 
 	<hr>
 
@@ -43,7 +47,7 @@
 
 		<div class = 'col-md-8' id = 'hotspot'>
 
-			<table id = 'stats_table' cellspacing='0' border='1' class = 'common_ground'>
+			<table id = 'stats_table' cellspacing='0' border='1' class = 'table-striped'>
 				<thead>
 					<tr>
 						<td> Rank </td>
@@ -55,7 +59,7 @@
 				</tbody>
 			</table>
 
-			<table border='1' cellspacing='0' id = 'results_table' class = 'common_ground'>
+			<table border='1' cellspacing='0' id = 'results_table' class = 'table-striped'>
 				<thead>
 					<tr>
 						<td>Metric</td>
