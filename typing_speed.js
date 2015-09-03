@@ -19,7 +19,7 @@ $(document).ready(function() {
 			username;
 
 	var testText,
-			myDataRef = new Firebase('https://torrid-torch-3503.firebaseio.com/');
+			myDataRef = new Firebase('https://torrid-torch-3503.firebaseio.com');
 
 	$('#start_button').click(function() {
 
@@ -73,6 +73,45 @@ $(document).ready(function() {
 
 	$('#load_button').click(function() {
 
+		if ( $('#stats_table').is(':visible') ) {
+			$('#stats_table').toggle();
+		}
+		if ( $('#results_table').is(':visible') ) {
+			$('#results_table').toggle();
+		}
+
+		if ( !( $('#typing_table').is(':visible')) ) {
+			$('#typing_table').toggle();
+		}
+
+
+		var texts = new Array();
+
+		myDataRef.orderByValue().on('value', function(snapshot) {
+			var childData,
+					grandChildData;
+					
+			snapshot.forEach(function(childSnapshot) {
+
+				key = childSnapshot.key();
+  	  	
+    		if (key === 'paragraphs') {
+    			childSnapshot.forEach(function(grandChildSnapShot) {
+
+    				grandChildData = grandChildSnapShot.val();
+
+    				texts.push(grandChildData['text']);
+
+    			});
+    		}
+    		else {
+    			return;
+    		}
+
+			});
+
+		});
+	
 		var loadValue = $('#load_button').attr('value');
 
 		if (loadValue === 'Load a paragraph') {
@@ -87,11 +126,11 @@ $(document).ready(function() {
 			$('#start_button').removeAttr('disabled');
 		}
 
-		var paragraph1 = "The quick brown fox jumped over the lazy dog.";
+		var randomIndex = parseInt( (Math.random() * texts.length) );
 
-		$('#loading_area').text(paragraph1);
+		$('#loading_area').text(texts[randomIndex]);
 
-		 testText = $('#loading_area').text();
+		testText = $('#loading_area').text();
 
 	});
 
@@ -199,7 +238,7 @@ $(document).ready(function() {
 					nwpm: nwpm
 				}
 
-				myDataRef.push(scores);
+				myDataRef.child('scores').push(scores);
 
 				alert('You have been immortalized ' + username + '!!')
 			}
@@ -259,6 +298,7 @@ $(document).ready(function() {
 
 		myDataRef.orderByValue().on('value', function(snapshot) {
 			var childData,
+					grandChildData,
 					inc = 1,
 					rankTD,
 					nameTD,
@@ -269,16 +309,26 @@ $(document).ready(function() {
 				// key will be "fred" the first time and "barney" the second time
 	  	  key = childSnapshot.key();
   	  	// childData will be the actual contents of the child
-    		childData = childSnapshot.val();
+    		//childData = childSnapshot.val();
 
-    		rankTD = "<td>" + inc + ".</td>";
-				nameTD = "<td>" + childData['name'] + "</td>",
-				scoreTD = "<td>" + childData['nwpm'] + "</td>";
+    		if (key === 'scores') {
+    			childSnapshot.forEach(function(grandChildSnapShot) {
 
-    		//console.log(childData['name']);
-    		$('#stats_table_tbody').append("<tr>" + rankTD + nameTD + scoreTD + "</tr>");
+    				grandChildData = grandChildSnapShot.val();
 
-    		inc += 1;
+	    			rankTD = "<td>" + inc + ".</td>";
+						nameTD = "<td>" + grandChildData['name'] + "</td>",
+						scoreTD = "<td>" + grandChildData['nwpm'] + "</td>";
+
+						$('#stats_table_tbody').append("<tr>" + rankTD + nameTD + scoreTD + "</tr>");
+						inc += 1;
+    			});
+    		}
+    		else {
+    			return;
+    		}
+
+    		
 
 			});
 
@@ -297,7 +347,7 @@ $(document).ready(function() {
 		if (newPara) {
 
 			if (newPara.length > 45) {
-				myDataRef.set(newPara);
+				myDataRef.child('paragraphs').push({text:newPara});
 
 				$('#messenger').addClass('alert alert-success');
 				$('#messenger').text('New paragraph created. You can now use it to determine your typing speed.');
