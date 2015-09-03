@@ -4,6 +4,7 @@ $(document).ready(function() {
 	$('#results_table').toggle();
 	$('#messenger').toggle();
 
+	var keyB;
 	var mistakes = {
 			count:0,
 			words:""
@@ -19,7 +20,7 @@ $(document).ready(function() {
 	};
 
 	var charsTyped = -1,
-			count = 13,
+			count = 60,
 			interval,
 			username;
 
@@ -54,7 +55,7 @@ $(document).ready(function() {
 		function counter() {
 			count -= 1;
 
-			if (count < 10) {
+			if (count < 15) {
 				changeCssProperties('#counter_paragraph', 'color', 'orange');
 
 				if (count < 7) {
@@ -108,7 +109,7 @@ $(document).ready(function() {
 
 
 		var texts = new Array();
-		texts.push("Try the default text. It's not hard is it? I suppose we could add a little puntuation, know what I mean!? Sorry, I didn't mean to shout. So how did you do? Did you even get here? You deserve a badge or a statue if you did. Seriously!");
+		texts.push("Try the default text. It's a poem. I dig, you dig, we dig, he digs, she digs, they dig. It's not a beautiful poem, but it's very deep!");
 
 		myDataRef.child('paragraphs').orderByValue().on('value', function(snapshot) {
 			var childData,
@@ -363,6 +364,13 @@ $(document).ready(function() {
 
 	$('#typing_area').keypress(function(e) {
 		charsTyped += 1;
+		keyB =  String.fromCharCode(e.keyCode);
+
+		$('#loading_area').html($('#loading_area').html().replace(keyB, ''));
+
+		//$('#colour_man').append('Austin');
+		$('#loading_area span').append(keyB);
+
 
 		if (e.keyCode === 32) {
 			spaces.userSpaces += 1;
