@@ -13,6 +13,11 @@ $(document).ready(function() {
 			count:0
 		};
 
+	var spaces = {
+		testSpaces: 0,
+		userSpaces: 0
+	};
+
 	var charsTyped = -1,
 			count = 13,
 			interval,
@@ -23,8 +28,8 @@ $(document).ready(function() {
 
 	$('#start_button').click(function() {
 
-		$('#start_button').css('background-color', 'orange');
-
+		changeCssProperties('#start_button', 'background-color', 'orange');
+		
 		//remove default text upon clicking start button
 		var typingTextDefault = $('#typing_area').text();
 
@@ -36,24 +41,34 @@ $(document).ready(function() {
 		var typingDisabled = $('#typing_area').attr('disabled');
 
 		if (typingDisabled === 'disabled') {
-			$('#typing_area').removeAttr('disabled');
+			enabler('#typing_area');
 		}
 
 		//enable submit button on start is pressed so user can submit
 		var submitDisabled = $('#submit_button').attr('disabled');
 
 		if (submitDisabled === 'disabled') {
-			$('#submit_button').removeAttr('disabled');
+			enabler('#submit_button');
 		}
 
 		function counter() {
 			count -= 1;
-			if (count < 0) {
-				clearInterval(interval);
-				//disable text field when time is up
-				$('#typing_area').attr('disabled', 'disabled');
-				return;
+
+			if (count < 10) {
+				changeCssProperties('#counter_paragraph', 'color', 'orange');
+
+				if (count < 7) {
+					changeCssProperties('#counter_paragraph', 'color', 'red');
+				}
+
+				if (count < 0) {
+					clearInterval(interval);
+					//disable text field when time is up
+					disabler('#typing_area');
+					return;
+				}
 			}
+			
 
 			$('#counter_paragraph').text(count + ' s');
 
@@ -65,7 +80,7 @@ $(document).ready(function() {
 		var resetDisabled = $('#reset_button').attr('disabled');
 
 		if (resetDisabled === 'disabled') {
-			$('#reset_button').removeAttr('disabled');
+			enabler('#reset_button');
 		}
 
 	});
@@ -77,46 +92,39 @@ $(document).ready(function() {
 		hideIfVisible( $('#results_table') );
 		showIfHidden( $('#typing_table') );
 		
-		var texts = new Array();
-
-		myDataRef.orderByValue().on('value', function(snapshot) {
-			var childData,
-					grandChildData;
-					
-			snapshot.forEach(function(childSnapshot) {
-
-				key = childSnapshot.key();
-  	  	
-    		if (key === 'paragraphs') {
-    			childSnapshot.forEach(function(grandChildSnapShot) {
-
-    				grandChildData = grandChildSnapShot.val();
-
-    				texts.push(grandChildData['text']);
-
-    			});
-    		}
-    		else {
-    			return;
-    		}
-
-			});
-
-		});
-	
 		var loadValue = $('#load_button').attr('value');
 
 		if (loadValue === 'Load a paragraph') {
 			$('#load_button').attr('value', 'Try alternative paragraph?');
 		}
 
-		$('#load_button').css('background-color', 'green');
-
+		changeCssProperties('#load_button', 'background-color', 'turquoise');
+		
 		var startDisabled = $('#start_button').attr('disabled');
 
 		if (startDisabled === 'disabled') {
-			$('#start_button').removeAttr('disabled');
+			enabler('#start_button');
 		}
+
+
+		var texts = new Array();
+		texts.push("Try the default text. It's not hard is it? I suppose we could add a little puntuation, know what I mean!? Sorry, I didn't mean to shout. So how did you do? Did you even get here? You deserve a badge or a statue if you did. Seriously!");
+
+		myDataRef.child('paragraphs').orderByValue().on('value', function(snapshot) {
+			var childData,
+					grandChildData;
+					
+			snapshot.forEach(function(childSnapshot) {
+				childData = childSnapshot.val();
+
+				console.log(childData);
+
+				texts.push(childData['text']);
+
+			});
+
+		});
+
 
 		var randomIndex = parseInt( (Math.random() * texts.length) );
 
@@ -137,17 +145,17 @@ $(document).ready(function() {
 
 		}
 		else {
-
-			$('#submit_button').css('background-color', 'turquoise');
-
+			changeCssProperties('#submit_button', 'background-color', 'turquoise');
+			
 			$('#typing_table').toggle();
 
-			
+			//accounting for words	
 			var currentCount = $('#counter_paragraph').val(),
 					testTextArr = testText.split(/\s/),
 					userText = $('#typing_area').val(),
 					userTextArr = userText.split(/\s+/),
-					testTextArrLen = testTextArr.length,
+					userTextArrLen = userTextArr.length,
+					//testTextArrLen = testTextArr.length,
 					testWord,
 					userWord,
 					testWordLen,
@@ -156,11 +164,11 @@ $(document).ready(function() {
 				//console.log('userArray is '+userTextArr);
 				//console.log('testArray is '+testTextArr);
 
-			for (var z = 0; z < testTextArrLen; z +=1) {
-				if (typeof userTextArr[z] === 'undefined') {
-					mistakes.count += 1;
-				} 
-				else if (userTextArr[z] === testTextArr[z]) {
+			for (var z = 0; z < userTextArrLen; z +=1) {
+				//if (typeof userTextArr[z] === 'undefined') {
+					//mistakes.count += 1;
+				//} 
+				if (userTextArr[z] === testTextArr[z]) {
 						correct.count += userTextArr[z].length;
 							
 				}
@@ -175,15 +183,17 @@ $(document).ready(function() {
 					if (testWordLen < userWordLen) {
 						mistakes.count += (userWordLen - testWordLen);
 					}
-
-					for (var g = 0; g < testWordLen; g += 1) {
-						if (testWord[g] === userWord[g]) {
-							correct.count += 1;
-						}
-						else {
-							mistakes.count += 1;
+					else if (testWordLen === userWordLen) {
+						for (var g = 0; g < testWordLen; g += 1) {
+							if (testWord[g] === userWord[g]) {
+								correct.count += 1;
+							}
+							else {
+								mistakes.count += 1;
+							}
 						}
 					}
+					
 				}
 
 			}
@@ -242,34 +252,31 @@ $(document).ready(function() {
 	$('#hotspot').mouseenter(function() {
 
 		if ( $('#results_table').is(':visible') ) {
-			$('#results_table').css('backdround-color', 'magenta');
-			$('#results_table').css('font-size', '+=2em');
-			$('#results_table').css('max-width', '50em');
+			changeCssProperties('#results_table', 'font-size', '+=2em');
+			changeCssProperties('#results_table', 'max-width', '50em');
 		}
 	
 		if ( $('#stats_table').is(':visible') ) {
-			$('#stats_table').css('backdround-color', 'magenta');
-			$('#stats_table').css('font-size', '+=2em');
-			$('#stats_table').css('max-width', '50em');
+			changeCssProperties('#stats_table', 'font-size', '+=2em');
+			changeCssProperties('#stats_table', 'max-width', '50em');
 		}
 	});
 
 	$('#hotspot').mouseleave(function() {
 
 		if ( $('#results_table').is(':visible') ) {
-			$('#results_table').css('backdround-color', 'magenta');
-			$('#results_table').css('font-size', '-=2em');
+			changeCssProperties('#results_table', 'font-size', '-=2em');
 		}
 	
 		if ( $('#stats_table').is(':visible') ) {
-			$('#stats_table').css('backdround-color', 'magenta');
-			$('#stats_table').css('font-size', '-=2em');
+			changeCssProperties('#stats_table', 'font-size', '-=2em');
 		}
 	});
 	
 	
 	$('#stats_button').click(function() {
-		$('#stats_button').css('background-color','turquoise');
+		changeCssProperties('#stats_button', 'background-color', 'turquoise');
+		//$('#stats_button').css('background-color','turquoise');
 		
 		hideIfVisible( $('#typing_table') );
 		hideIfVisible( $('#results_table') );
@@ -354,8 +361,12 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#typing_area').keypress(function() {
+	$('#typing_area').keypress(function(e) {
 		charsTyped += 1;
+
+		if (e.keyCode === 32) {
+			spaces.userSpaces += 1;
+		}
 	});
 
 	$(document).dblclick(function() {
@@ -374,4 +385,16 @@ var showIfHidden = function(selector) {
 	if ( !(selector.is(':visible')) ){
 		selector.toggle();
 	}
+}
+
+var changeCssProperties = function(selector, property, value) {
+	$(selector).css(property, value);
+}
+
+var disabler = function(selector) {
+	$(selector).attr('disabled', 'disabled');
+}
+
+var enabler = function(selector) {
+	$(selector).removeAttr('disabled');
 }
