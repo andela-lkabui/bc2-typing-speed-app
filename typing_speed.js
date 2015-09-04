@@ -4,6 +4,8 @@ $(document).ready(function() {
 	$('#results_table').toggle();
 	$('#messenger').toggle();
 
+	var keyB,
+			displayInput;
 	var mistakes = {
 			count:0,
 			words:""
@@ -19,7 +21,7 @@ $(document).ready(function() {
 	};
 
 	var charsTyped = -1,
-			count = 13,
+			count = 60,
 			interval,
 			username;
 
@@ -27,70 +29,81 @@ $(document).ready(function() {
 			myDataRef = new Firebase('https://torrid-torch-3503.firebaseio.com');
 
 	$('#start_button').click(function() {
-
-		changeCssProperties('#start_button', 'background-color', 'orange');
 		
-		//remove default text upon clicking start button
-		var typingTextDefault = $('#typing_area').text();
+		if (displayInput === 1) {
 
-		if (typingTextDefault === 'Enter paragraph text here.') {
-			$('#typing_area').text('');
-		}
+			count = 60;
 
-		//enable text area so that user can start typin
-		var typingDisabled = $('#typing_area').attr('disabled');
+			changeCssProperties('#start_button', 'background-color', 'orange');
+		
+			//remove default text upon clicking start button
+			var typingTextDefault = $('#typing_area').text();
 
-		if (typingDisabled === 'disabled') {
-			enabler('#typing_area');
-		}
-
-		//enable submit button on start is pressed so user can submit
-		var submitDisabled = $('#submit_button').attr('disabled');
-
-		if (submitDisabled === 'disabled') {
-			enabler('#submit_button');
-		}
-
-		function counter() {
-			count -= 1;
-
-			if (count < 10) {
-				changeCssProperties('#counter_paragraph', 'color', 'orange');
-
-				if (count < 7) {
-					changeCssProperties('#counter_paragraph', 'color', 'red');
-				}
-
-				if (count < 0) {
-					clearInterval(interval);
-					//disable text field when time is up
-					disabler('#typing_area');
-					return;
-				}
+			if (typingTextDefault === 'Enter paragraph text here.') {
+				$('#typing_area').text('');
 			}
+
+			//enable text area so that user can start typin
+			var typingDisabled = $('#typing_area').attr('disabled');
+
+			if (typingDisabled === 'disabled') {
+				enabler('#typing_area');
+			}
+
+			//enable submit button on start is pressed so user can submit
+			var submitDisabled = $('#submit_button').attr('disabled');
+
+			if (submitDisabled === 'disabled') {
+				enabler('#submit_button');
+			}
+
+			function counter() {
+				count -= 1;
+
+				if (count < 15) {
+					changeCssProperties('#counter_paragraph', 'color', 'orange');
+
+					if (count < 7) {
+						changeCssProperties('#counter_paragraph', 'color', 'red');
+					}
+
+					if (count < 0) {
+						clearInterval(interval);
+						//disable text field when time is up
+						disabler('#typing_area');
+						return;
+					}
+				}
 			
 
-			$('#counter_paragraph').text(count + ' s');
+				$('#counter_paragraph').text(count);
 
-		}
+			}
 
-		interval = setInterval(counter, 1000);
+			interval = setInterval(counter, 1000);
 
-		//enable reset button on start is pressed
-		var resetDisabled = $('#reset_button').attr('disabled');
+			//enable reset button on start is pressed
+			var resetDisabled = $('#reset_button').attr('disabled');
 
-		if (resetDisabled === 'disabled') {
-			enabler('#reset_button');
+			if (resetDisabled === 'disabled') {
+				enabler('#reset_button');
+			}
+
 		}
 
 	});
 
 
 	$('#load_button').click(function() {
+		displayInput = 1;
 
-		hideIfVisible( $('#stats_table') );
-		hideIfVisible( $('#results_table') );
-		showIfHidden( $('#typing_table') );
+		clearInterval(interval);
+
+		$('#typing_area').text('');
+
+		hideIfVisible('#stats_table');
+		hideIfVisible('#results_table');
+		showIfHidden('#typing_table');
 		
 		var loadValue = $('#load_button').attr('value');
 
@@ -108,22 +121,25 @@ $(document).ready(function() {
 
 
 		var texts = new Array();
-		texts.push("Try the default text. It's not hard is it? I suppose we could add a little puntuation, know what I mean!? Sorry, I didn't mean to shout. So how did you do? Did you even get here? You deserve a badge or a statue if you did. Seriously!");
+		texts.push("Try the default text. It's a poem. I dig, you dig, we dig, he digs, she digs, they dig. It's not a beautiful poem, but it's very deep!");
 
-		myDataRef.child('paragraphs').orderByValue().on('value', function(snapshot) {
-			var childData,
-					grandChildData;
+		if (texts.length < 5) {
+			myDataRef.child('paragraphs').orderByValue().on('value', function(snapshot) {
+				var childData,
+						grandChildData;
 					
-			snapshot.forEach(function(childSnapshot) {
-				childData = childSnapshot.val();
+				snapshot.forEach(function(childSnapshot) {
+					childData = childSnapshot.val();
 
-				console.log(childData);
+					console.log(childData);
 
-				texts.push(childData['text']);
+					texts.push(childData['text']);
+
+				});
 
 			});
-
-		});
+		}
+		
 
 
 		var randomIndex = parseInt( (Math.random() * texts.length) );
@@ -139,124 +155,169 @@ $(document).ready(function() {
 		//stop the count 
 		clearInterval(interval);
 
-		if (charsTyped < 0) {
-
-			alert('Please type in a paragraph. (And dont copy - paste)');
-
+		if ( displayInput === 0) {
+			showIfHidden('#typing_table');
+			hideIfVisible('#stats_table');
+			hideIfVisible('#results_table');
 		}
 		else {
-			changeCssProperties('#submit_button', 'background-color', 'turquoise');
-			
-			$('#typing_table').toggle();
+			if (charsTyped < 0) {
 
-			//accounting for words	
-			var currentCount = $('#counter_paragraph').val(),
-					testTextArr = testText.split(/\s/),
-					userText = $('#typing_area').val(),
-					userTextArr = userText.split(/\s+/),
-					userTextArrLen = userTextArr.length,
-					//testTextArrLen = testTextArr.length,
-					testWord,
-					userWord,
-					testWordLen,
-					userWordLen;
-				
-				//console.log('userArray is '+userTextArr);
-				//console.log('testArray is '+testTextArr);
+				alert('Please type in a some text. (And dont copy - paste)');
 
-			for (var z = 0; z < userTextArrLen; z +=1) {
-				//if (typeof userTextArr[z] === 'undefined') {
-					//mistakes.count += 1;
-				//} 
-				if (userTextArr[z] === testTextArr[z]) {
-						correct.count += userTextArr[z].length;
-							
-				}
-				else {
-					testWord = testTextArr[z];
-					userWord = userTextArr[z];
-
-					//console.log('Test word is '+ testWord +' while user word is ' + userWord);
-					testWordLen = testWord.length,
-					userWordLen = userWord.length;
-
-					if (testWordLen < userWordLen) {
-						mistakes.count += (userWordLen - testWordLen);
-					}
-					else if (testWordLen === userWordLen) {
-						for (var g = 0; g < testWordLen; g += 1) {
-							if (testWord[g] === userWord[g]) {
-								correct.count += 1;
-							}
-							else {
-								mistakes.count += 1;
-							}
-						}
-					}
-					
-				}
-
-			}
-
-		charsTyped = (mistakes.count + correct.count);
-
-		//console.log('charsTyped: ' + charsTyped + ' correct: ' + correct.count);
-
-		var accuracy = ((correct.count / charsTyped) * 100).toFixed(2),
-				elapsed = 13 - currentCount,
-				gwpm = ( (charsTyped / 5) / (elapsed/60) ),
-				nwpm = gwpm - (mistakes.count / (elapsed/60) );
-
-		if (nwpm < 0) {
-			nwpm = 0;
-		}
-
-		gwpm = Math.round(gwpm);
-		nwpm = Math.round(nwpm);
-
-		$('#accuracy_score').text(accuracy + ' %');
-		$('#corrects').text(correct.count);
-		$('#mistakes').text(mistakes.count);
-		$('#total_key_strokes').text(charsTyped);
-		$('#gwpm').text(gwpm);
-		$('#nwpm').text(nwpm);
-
-		$('#results_table').toggle();
-
-			username = prompt('Please give us your name so that we can immortalize you');
-
-			if (username.length < 3) {
-				username = prompt("C'mon ... is that your real name? Don't be shy, go ahead");
 			}
 			else {
+				changeCssProperties('#submit_button', 'background-color', 'turquoise');
+			
+				$('#typing_table').toggle();
 
-				//create object, then save it to firebase
-				var scores = {
-					name: username,
-					accuracy: accuracy,
-					mistakes: mistakes.count,
-					total_key_strokes: charsTyped,
-					gwpm: gwpm,
-					nwpm: nwpm
+				//accounting for words	
+				var currentCount = $('#counter_paragraph').text(),
+						testTextArr = testText.split(/\s/),
+						userText = $('#typing_area').val(),
+						userTextArr = userText.split(/\s+/),
+						userTextArrLen = userTextArr.length,
+						testTextArrLen = testTextArr.length;
+
+				var	testWord,
+						userWord,
+						testWordLen,
+						userWordLen;
+			
+				//for text that exceeds test, count each of those words as mistakes
+				if (userTextArrLen > testTextArrLen) {
+					for (var y = testTextArrLen; y < userTextArrLen; y += 1) {
+						mistakes.count += userTextArr[y].length;
+					}
+				}
+				
+
+				for (var z = 0; z < userTextArrLen; z += 1) {
+					//if (typeof userTextArr[z] === 'undefined') {
+						//mistakes.count += 1;
+					//} 
+					if (userTextArr[z] === testTextArr[z]) {
+						correct.count += userTextArr[z].length;
+								
+					}
+					else {
+						testWord = testTextArr[z];
+						userWord = userTextArr[z];
+
+						testWordLen = testWord.length,
+						userWordLen = userWord.length;
+
+						if (testWordLen < userWordLen) {
+							for (var k = 0; k < userWordLen; k += 1) {
+								if (typeof testWord[k] === 'undefined') {
+									mistakes.count += 1;
+								}
+								else if (testWord[k] === userWord[k]) {
+									correct.count += 1;
+								}
+								else {
+									mistakes.count += 1;
+								}
+							}
+						}
+						else if (testWordLen > userWordLen) {
+							for(var m = 0; m < testWordLen; m += 1) {
+								if (typeof userWord[m] === 'undefined') {
+									mistakes.count += 1;
+								}
+								else if (testWord[k] === userWord[k]) {
+									correct.count += 1;
+								}
+								else {
+									mistakes.count += 1;
+								}
+							}
+						}
+						else if (testWordLen === userWordLen) {
+							for (var g = 0; g < testWordLen; g += 1) {
+								if (testWord[g] === userWord[g]) {
+									correct.count += 1;
+								}
+								else {
+									mistakes.count += 1;
+								}
+							}
+						}
+					
+					}
+
 				}
 
-				myDataRef.child('scores').push(scores);
+				charsTyped = (mistakes.count + correct.count);
 
-				alert('You have been immortalized ' + username + '!!')
-			}
+				//console.log('charsTyped: ' + charsTyped + ' correct: ' + correct.count);
+
+				var accuracy = ((correct.count / charsTyped) * 100).toFixed(2),
+						elapsed = ( (60 - currentCount) / 60),
+						gwpm = ( (charsTyped / 5) / elapsed ),
+						nwpm = gwpm - (mistakes.count / elapsed );
+
+						console.log('correct: ' + correct.count);
+						console.log('currentCount: ' + currentCount);
+						console.log('elapsed: ' + elapsed);
+						console.log('mistakes: ' + mistakes.count);
+						console.log('Chars typed: ' + charsTyped);
+						console.log('GWPM: ' + gwpm);
+						console.log('NWPM: ' + nwpm);
+
+				//gwpm = Math.round(gwpm);
+				//nwpm = Math.round(nwpm);
+				gwpm = gwpm.toFixed(3);
+				nwpm = nwpm.toFixed(3);
+
+				$('#accuracy_score').text(accuracy + ' %');
+				$('#corrects').text(correct.count);
+				$('#mistakes').text(mistakes.count);
+				$('#total_key_strokes').text(charsTyped);
+				$('#gwpm').text(gwpm);
+				$('#nwpm').text(nwpm);
+
+				displayInput = 0;
+
+				$('#results_table').toggle();
+
+				username = prompt('Please give us your name so that we can immortalize you');
+
+				if (username.length < 3) {
+					username = prompt("C'mon ... is that your real name? Don't be shy, go ahead");
+				}
+				else {
+
+					//create object, then save it to firebase
+					var scores = {
+						name: username,
+						accuracy: accuracy,
+						mistakes: mistakes.count,
+						total_key_strokes: charsTyped,
+						gwpm: gwpm,
+						nwpm: nwpm
+					};
+
+					myDataRef.child('scores').push(scores);
+
+					alert('You have been immortalized ' + username + '!!')
+
+				}
 
 		}
 
-	});
+	}
+
+});
 
 	$('#hotspot').mouseenter(function() {
 
-		if ( $('#results_table').is(':visible') ) {
+		if ( isVisible('#results_table') ) {
 			changeCssProperties('#results_table', 'font-size', '+=2em');
 			changeCssProperties('#results_table', 'max-width', '50em');
 		}
 	
-		if ( $('#stats_table').is(':visible') ) {
+		if ( isVisible('#stats_table') ) {
 			changeCssProperties('#stats_table', 'font-size', '+=2em');
 			changeCssProperties('#stats_table', 'max-width', '50em');
 		}
@@ -264,11 +325,11 @@ $(document).ready(function() {
 
 	$('#hotspot').mouseleave(function() {
 
-		if ( $('#results_table').is(':visible') ) {
+		if ( isVisible('#results_table') ) {
 			changeCssProperties('#results_table', 'font-size', '-=2em');
 		}
 	
-		if ( $('#stats_table').is(':visible') ) {
+		if ( isVisible('#stats_table') ) {
 			changeCssProperties('#stats_table', 'font-size', '-=2em');
 		}
 	});
@@ -278,10 +339,10 @@ $(document).ready(function() {
 		changeCssProperties('#stats_button', 'background-color', 'turquoise');
 		//$('#stats_button').css('background-color','turquoise');
 		
-		hideIfVisible( $('#typing_table') );
-		hideIfVisible( $('#results_table') );
+		hideIfVisible('#typing_table');
+		hideIfVisible('#results_table');
 
-		if ( $('#stats_table').is(':visible') ) {
+		if ( isVisible('#stats_table') ) {
 			$('#results_table').toggle();
 		}
 
@@ -363,38 +424,55 @@ $(document).ready(function() {
 
 	$('#typing_area').keypress(function(e) {
 		charsTyped += 1;
+		keyB =  String.fromCharCode(e.keyCode);
+
+		$('#loading_area').html($('#loading_area').html().replace(keyB, ''));
+
+		//$('#colour_man').append('Austin');
+		$('#loading_area span').append(keyB);
+
 
 		if (e.keyCode === 32) {
 			spaces.userSpaces += 1;
 		}
 	});
 
-	$(document).dblclick(function() {
-		hideIfVisible( $('#messenger') );
+	$('#messenger').click(function() {
+		hideIfVisible('#messenger');
 	});
 	
 });
 
 var hideIfVisible = function(selector) {
-	if (selector.is(':visible')) {
-		selector.toggle();
+	if ( $(selector).is(':visible')) {
+		$(selector).toggle();
 	}
-}
+};
 
 var showIfHidden = function(selector) {
-	if ( !(selector.is(':visible')) ){
-		selector.toggle();
+	if ( !( $(selector).is(':visible') ) ) {
+		$(selector).toggle();
 	}
-}
+};
+
+var isVisible = function(selector){
+	if ( $(selector).is(':visible') ) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+};
 
 var changeCssProperties = function(selector, property, value) {
 	$(selector).css(property, value);
-}
+};
 
 var disabler = function(selector) {
 	$(selector).attr('disabled', 'disabled');
-}
+};
 
 var enabler = function(selector) {
 	$(selector).removeAttr('disabled');
-}
+};

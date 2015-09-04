@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head>
+ 	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
 	<title>Typing speed bootcamp project</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script type = 'text/javascript' src = 'typing_speed.js'></script>
@@ -33,13 +34,13 @@
 		<div class = 'col-md-4' id = 'left_hand'>
 
 			<div>
-				<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' disabled='disabled'>
+				<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
 				<input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'>
 			</div>
 
 			<div>
-				<p id ='counter_paragraph'> _ _ s</p>
-				<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
+				<p id ='counter_paragraph'> _ _</p><p>s</p>
+				<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' disabled='disabled'>
 				<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
 			</div>
 
@@ -79,7 +80,7 @@
 			<table id = 'typing_table' class = 'common_ground'>
 				<tbody>
 					<tr>
-						<td> <textarea id = 'loading_area' disabled='disabled'></textarea> </td>
+						<td> <div id = 'loading_area' disabled='disabled'><span id = 'colour_man'>I see you</span></div> </td>
 					</tr>
 					<tr>
 						<td> <textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea> </td>
