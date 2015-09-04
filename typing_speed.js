@@ -424,12 +424,12 @@ $(document).ready(function() {
 
 	$('#typing_area').keypress(function(e) {
 		charsTyped += 1;
-		keyB =  String.fromCharCode(e.keyCode);
+		//keyB =  String.fromCharCode(e.keyCode);
 
-		$('#loading_area').html($('#loading_area').html().replace(keyB, ''));
+		//$('#loading_area').html($('#loading_area').html().replace(keyB, ''));
 
 		//$('#colour_man').append('Austin');
-		$('#loading_area span').append(keyB);
+		//$('#loading_area span').append(keyB);
 
 
 		if (e.keyCode === 32) {
