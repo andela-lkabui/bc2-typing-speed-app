@@ -21,7 +21,7 @@
 	<ul id = 'top_togglable_menu' class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Test Yourself!</a></li>
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Your Score</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">The Leaderboard</a></li>
+    <li id = 'stats_button' role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">The Leaderboard</a></li>
     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">About</a></li>
   </ul>
 	<div class="tab-content">
@@ -100,13 +100,38 @@
 
     </div>
 
+    <!-- About the app -->
+    <div role="tabpanel" class="tab-pane" id="settings">
+    	<div class = 'display_div'>
+    		<div class="page-header">
+  				<h1>How to calculate typing speed and accuracy</h1>
+  					<h1><small>Gross Words Per Minute (GWPM)</small></h1>
+  						<p class = 'app_description'>This is the raw measure of how fast a user can type. This score doesn't account for any mistakes (or typos if you will). To calculate the GWPM, take all the <strong>words typed</strong> and <strong>divide</strong> that by the <strong>time it took</strong> to type. A complete word is taken as five characters. This assumption is made because: </p>
+  								<ul>
+  									<li>We need to take into account the fact that words vary greatly in length e.g. counting the words "commonwealth" and "no" 		as one word each would do an injustice to user1 who typed in "commonwealth" (by the time he/she gets to the seventh letter, user2 may be on to the fourth short word). </li>
+  									<li>Because it makes the math so much more easier :) </li>
+  								</ul>
+  						<p class = 'app_description'>The formula used to calculate GWMP is as follows; </p>
+  						<img src = 'research/gwpm.png' />
 
-    
-    <div role="tabpanel" class="tab-pane" id="settings">Add Paragraph</div>
+  				<h1><small>Net Words Per Minute (NWPM)</small></h1>
+
+  					<p class = 'app_description'>Net WPM is preferred for measuring typing speed as opposed to Gross WPM computation since it accounts for mistakes and thus gives a more complete picture of a user's typing abilities. With NWPM, a typer who is fast but error prone may get a lower score than one who is slower but more accurate.</p>
+
+  					<p class = 'app_description'>To calculate the NWPM, take the GWPM and subtract the number of errors per minute (the error rate). The <strong>error rate</strong> is calculated by <strong>dividing the errors</strong> by the <strong>time you spent typing</strong>.</p>
+
+  					<p>To calculate the NWPM, use the formula below;</p>
+  					<img src = 'research/nwpm.png' />
+
+  				<h1><small>Accuracy</small></h1>
+  					<p>Accuracy is defined as the percentage of correct entries out of the total number of entries typed. Mathematically, it is the number of <strong>correct characters typed</strong>, <strong>divided by total number of characters typed</strong>, and then <strong>multiplied by 100</strong>. So if you typed 78 correct out of 100 characters typed, you have 78% accuracy.</p>
+				</div>
+    	</div>
+    </div>
   </div>
 
 
-	<div>
+	<!-- <div>
 		<button id = 'stats_button' type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Click to see the ninjas who've made it!">Leaderboard</button>
 		<button id = 'create_button' type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Create custom paragraphs">Create a paragraph</button>
 
@@ -114,7 +139,7 @@
 			<div id = 'messenger'  role="alert"></div>
 		</div>
 		
-	</div>
+	</div> -->
 
 
 	<hr>

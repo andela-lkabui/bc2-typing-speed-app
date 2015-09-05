@@ -25,6 +25,11 @@ textarea {
 	max-width: 54em;
 }
 
+img {
+	margin: auto;
+
+}
+
 #welcome_header {
 	text-align: center;
 	font-weight: bold;
@@ -34,11 +39,13 @@ textarea {
 }
 
 .display_div {
-	background-color: #000000;
+	/*background-color: turquoise;*/
 	height: 30em;
+	max-height: 30em;
 	width: 88em;
 	margin-left: 5em;
 	margin-right: 5em;
+	overflow: auto;
 }
 
 #hotspot {
