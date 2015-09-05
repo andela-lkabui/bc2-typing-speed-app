@@ -123,3 +123,12 @@ textarea {
 	max-width: 40em;
 	font-size: 1.5em;
 }
+
+#new_paragraph_area {
+	margin: 0.5em 1em 1em 1em;
+	vertical-align: center;
+	height: 12em;
+	max-height: 12em;
+	width: 39em;
+	max-width: 40em;
+}

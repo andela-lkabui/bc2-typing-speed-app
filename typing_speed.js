@@ -4,8 +4,7 @@ $(document).ready(function() {
 	$('#results_table').toggle();
 	$('#messenger').toggle();
 
-	var keyB,
-			displayInput;
+	var displayInput;
 	var mistakes = {
 			count:0,
 			words:""
@@ -19,6 +18,8 @@ $(document).ready(function() {
 		testSpaces: 0,
 		userSpaces: 0
 	};
+
+	var controlV = false;
 
 	var charsTyped = -1,
 			count = 60,
@@ -131,8 +132,6 @@ $(document).ready(function() {
 				snapshot.forEach(function(childSnapshot) {
 					childData = childSnapshot.val();
 
-					console.log(childData);
-
 					texts.push(childData['text']);
 
 				});
@@ -161,9 +160,11 @@ $(document).ready(function() {
 			hideIfVisible('#results_table');
 		}
 		else {
-			if (charsTyped < 0) {
-
+			if (controlV) {
+				$('#typing_area').text('');
 				alert('Please type in a some text. (And dont copy - paste)');
+				
+				console.log('Apparently, typing area is empty');
 
 			}
 			else {
@@ -250,23 +251,11 @@ $(document).ready(function() {
 
 				charsTyped = (mistakes.count + correct.count);
 
-				//console.log('charsTyped: ' + charsTyped + ' correct: ' + correct.count);
-
 				var accuracy = ((correct.count / charsTyped) * 100).toFixed(2),
 						elapsed = ( (60 - currentCount) / 60),
 						gwpm = ( (charsTyped / 5) / elapsed ),
 						nwpm = gwpm - (mistakes.count / elapsed );
 
-						console.log('correct: ' + correct.count);
-						console.log('currentCount: ' + currentCount);
-						console.log('elapsed: ' + elapsed);
-						console.log('mistakes: ' + mistakes.count);
-						console.log('Chars typed: ' + charsTyped);
-						console.log('GWPM: ' + gwpm);
-						console.log('NWPM: ' + nwpm);
-
-				//gwpm = Math.round(gwpm);
-				//nwpm = Math.round(nwpm);
 				gwpm = gwpm.toFixed(3);
 				nwpm = nwpm.toFixed(3);
 
@@ -395,8 +384,15 @@ $(document).ready(function() {
 	});
 
 	$('#create_button').click(function() {
-		var newPara = prompt('Proceed and type in test paragraph');
+		$('#bootstrap_alert').modal('show');
+		//var newPara = prompt('Proceed and type in test paragraph');
 
+	});
+
+	$('#save_paragraph').click(function() {
+		var newPara = $("#new_paragraph_area").val();
+
+		console.log("Are we there yet!? " + $("#new_paragraph_area").text());
 		if (newPara) {
 
 			if (newPara.length > 45) {
@@ -420,6 +416,8 @@ $(document).ready(function() {
 			$('#messenger').toggle();
 			
 		}
+
+		$('#bootstrap_alert').modal('hide');
 	});
 
 	$('#typing_area').keypress(function(e) {
@@ -429,13 +427,16 @@ $(document).ready(function() {
 		//$('#loading_area').html($('#loading_area').html().replace(keyB, ''));
 
 		//$('#colour_man').append('Austin');
-		//$('#loading_area span').append(keyB);
-
-
+	
 		if (e.keyCode === 32) {
 			spaces.userSpaces += 1;
 		}
 	});
+
+	$('#typing_area').bind('paste', function() {
+		controlV = true;
+	});
+
 
 	$('#messenger').click(function() {
 		hideIfVisible('#messenger');
