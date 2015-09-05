@@ -33,7 +33,7 @@ textarea {
 	margin-right: 5em;
 }
 
-#display_div {
+.display_div {
 	background-color: #000000;
 	height: 30em;
 	width: 88em;
@@ -131,4 +131,10 @@ textarea {
 	max-height: 12em;
 	width: 39em;
 	max-width: 40em;
+}
+
+#top_togglable_menu {
+	margin-left: 5em;
+	margin-right: 5em;
+	margin-bottom: 5em;
 }

@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
-	$('#stats_table').toggle();
-	$('#results_table').toggle();
-	$('#messenger').toggle();
+	//$('#stats_table').toggle();
+	//$('#results_table').toggle();
+	//$('#messenger').toggle();
 
 	var displayInput;
 	var mistakes = {

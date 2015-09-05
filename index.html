@@ -18,9 +18,98 @@
 	</div>
 
 
+	<ul id = 'top_togglable_menu' class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Test Yourself!</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Your Score</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">The Leaderboard</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">About</a></li>
+  </ul>
+	<div class="tab-content">
+
+		<!-- Test yourself tab -->
+    <div role="tabpanel" class="tab-pane active" id="home">	
+    	<div class = 'display_div'>
+				<div class = 'col-md-4' id = 'left_hand'>
+					<div>
+						<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
+						<input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'>
+					</div>
+					<div>
+						<p id ='counter_paragraph'> _ _</p>
+						<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' disabled='disabled'>
+						<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
+					</div>
+				</div>
+
+				<div class = 'col-md-8' id = 'hotspot'>
+					<table id = 'typing_table' class = 'common_ground'>
+						<tbody>
+							<tr>
+								<td> <textarea id = 'loading_area' disabled='disabled'></textarea> </td>
+							</tr>
+							<tr>
+								<td> <textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea> </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+  	</div>
+
+  	<!-- Results tab -->
+  	<div role="tabpanel" class="tab-pane" id="profile">
+
+  		<div class = 'display_div'>
+  			<table border='1' cellspacing='0' id = 'results_table' class = 'table-striped'>
+					<thead>
+						<tr>
+							<td>Metric</td>
+							<td>Count/ Score</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>Accuracy (%):</td> <td id = 'accuracy_score'> - </td> </tr>
+						<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
+						<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
+						<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
+						<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
+						<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
+					</tbody>
+				</table>
+  		</div>
+
+  	</div>
+
+  	<!-- Leaderboard tab -->
+    <div role="tabpanel" class="tab-pane" id="messages">
+
+    	<div class = 'display_div'>
+    		<table id = 'stats_table' cellspacing='0' border='1' class = 'table-striped'>
+					<thead>
+						<tr>
+							<td> Rank </td>
+							<td> Name </td>
+							<td> Net WPM Score! </td>
+						</tr>
+					</thead>
+					<tbody id = 'stats_table_tbody'>
+					</tbody>
+				</table>
+			</div>
+
+    </div>
+
+
+    
+    <div role="tabpanel" class="tab-pane" id="settings">Add Paragraph</div>
+  </div>
+
+
 	<div>
-		<button id = 'stats_button' type="button" class="btn btn-primary">Leaderboard</button>
-		<button id = 'create_button' type="button" class="btn btn-primary">Create a paragraph</button>
+		<button id = 'stats_button' type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Click to see the ninjas who've made it!">Leaderboard</button>
+		<button id = 'create_button' type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Create custom paragraphs">Create a paragraph</button>
+
 		<div class = 'container'>
 			<div id = 'messenger'  role="alert"></div>
 		</div>
@@ -30,87 +119,27 @@
 
 	<hr>
 
-	<div id = 'display_div'>
-		<div class = 'col-md-4' id = 'left_hand'>
-
-			<div>
-				<input type = 'submit' value = 'Start' name = 'type_starter' id = 'start_button' disabled='disabled'>
-				<input type = 'submit' value = 'Load a paragraph' name = 'paragraph_loader' id = 'load_button'>
-			</div>
-
-			<div>
-				<p id ='counter_paragraph'> _ _</p>
-				<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' disabled='disabled'>
-				<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
-			</div>
-
-		</div>
-
-		<div class = 'col-md-8' id = 'hotspot'>
-
-			<table id = 'stats_table' cellspacing='0' border='1' class = 'table-striped'>
-				<thead>
-					<tr>
-						<td> Rank </td>
-						<td> Name </td>
-						<td> Net WPM Score! </td>
-					</tr>
-				</thead>
-				<tbody id = 'stats_table_tbody'>
-				</tbody>
-			</table>
-
-			<table border='1' cellspacing='0' id = 'results_table' class = 'table-striped'>
-				<thead>
-					<tr>
-						<td>Metric</td>
-						<td>Count/ Score</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr><td>Accuracy (%):</td> <td id = 'accuracy_score'> - </td> </tr>
-					<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
-					<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
-					<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
-					<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
-					<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
-				</tbody>
-			</table>
-
-			<table id = 'typing_table' class = 'common_ground'>
-				<tbody>
-					<tr>
-						<td> <textarea id = 'loading_area' disabled='disabled'></textarea> </td>
-					</tr>
-					<tr>
-						<td> <textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea> </td>
-					</tr>
-				</tbody>
-			</table>
-
-		</div>
-	</div>
+	
 
 	<hr>
 
 	<div class="modal fade" id = 'bootstrap_alert'>
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <!-- <p>One fine body&hellip;</p> -->
-        <textarea id = 'new_paragraph_area'></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id = 'save_paragraph'>Save Paragraph</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      	<div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">Type away and create a paragraph</h4>
+  	    </div>
+    	  <div class="modal-body">
+      		<textarea id = 'new_paragraph_area'></textarea>
+      	</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id = 'save_paragraph'>Save Paragraph</button>
+  	    </div>
+    	</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	
 	</body>
 </html>
