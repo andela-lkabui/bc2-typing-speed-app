@@ -140,6 +140,21 @@ img {
 	max-width: 40em;
 }
 
+#username_div {
+	margin: auto;
+	width: 39em;
+	max-width: 40em;
+}
+
+#feedback_area {
+	margin: 0.5em 1em 1em 1em;
+	vertical-align: center;
+	height: 12em;
+	max-height: 12em;
+	width: 39em;
+	max-width: 40em;
+}
+
 #top_togglable_menu {
 	margin-left: 5em;
 	margin-right: 5em;

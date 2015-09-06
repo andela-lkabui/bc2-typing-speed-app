@@ -4,10 +4,10 @@
  	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
 	<title>Typing speed bootcamp project</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script type = 'text/javascript' src = 'typing_speed.js'></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+	<script type = 'text/javascript' src = 'typing_speed.js'></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="style/typing_speed.css"/>
 		
 </head>
@@ -19,13 +19,14 @@
 
 
 	<ul id = 'top_togglable_menu' class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Test Yourself!</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Your Score</a></li>
-    <li id = 'stats_button' role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">The Leaderboard</a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">About</a></li>
+    <li id = 'test_youself' role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Test Yourself!</a></li>
+    <li id = 'your_scores' role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Your Score</a></li>
+    <li id = 'leaderboard' role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Leaderboard</a></li>
+    <li id = 'about' role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">About</a></li>
   </ul>
 	<div class="tab-content">
 
+		<hr>
 		<!-- Test yourself tab -->
     <div role="tabpanel" class="tab-pane active" id="home">	
     	<div class = 'display_div'>
@@ -36,7 +37,7 @@
 					</div>
 					<div>
 						<p id ='counter_paragraph'> _ _</p>
-						<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' disabled='disabled'>
+						<input type = 'submit' value = 'Reset' name = 'resetter' id = 'reset_button' >
 						<input type = 'submit' value = 'Submit' name = 'submit_test' id = 'submit_button' disabled='disabled'>
 					</div>
 				</div>
@@ -45,7 +46,7 @@
 					<table id = 'typing_table' class = 'common_ground'>
 						<tbody>
 							<tr>
-								<td> <textarea id = 'loading_area' disabled='disabled'></textarea> </td>
+								<td> <textarea id = 'loading_area' disabled='disabled'>Click on the "Load a Paragraph" button to ... well ... load a paragraph</textarea> </td>
 							</tr>
 							<tr>
 								<td> <textarea id = 'typing_area' disabled = 'disabled' >Enter paragraph text here.</textarea> </td>
@@ -61,22 +62,33 @@
   	<div role="tabpanel" class="tab-pane" id="profile">
 
   		<div class = 'display_div'>
-  			<table border='1' cellspacing='0' id = 'results_table' class = 'table-striped'>
-					<thead>
-						<tr>
-							<td>Metric</td>
-							<td>Count/ Score</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr><td>Accuracy (%):</td> <td id = 'accuracy_score'> - </td> </tr>
-						<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
-						<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
-						<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
-						<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
-						<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
-					</tbody>
-				</table>
+  			<div class="page-header">
+  				<h1><small id = "results_salutation"></small></h1>
+  			</div>
+
+  			<div>
+  				<table border='1' cellspacing='0' id = 'results_table' class = 'table-striped'>
+						<thead>
+							<tr>
+								<td>Metric</td>
+								<td>Count/ Score</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td>Accuracy (%):</td> <td id = 'accuracy_score'> - </td> </tr>
+							<tr><td>Correct:</td> <td id = 'corrects'> - </td> </tr>
+							<tr><td>Mistakes:</td> <td id = 'mistakes'> - </td> </tr>
+							<tr><td>Total Key Strokes:</td> <td id = 'total_key_strokes'> - </td> </tr>
+							<tr><td>Gross Words Per Min:</td> <td id = 'gwpm'> - </td> </tr>
+							<tr><td>Net Words Per Min:</td> <td id = 'nwpm'> - </td> </tr>
+						</tbody>
+					</table>
+  			</div>
+
+  			<div class="page-header">
+  				<h1><small>Click on the "Leaderboard" tab to see how you rank amongst the greats.</small></h1>
+  			</div>
+
   		</div>
 
   	</div>
@@ -140,15 +152,9 @@
 		</div>
 		
 	</div> -->
-
-
 	<hr>
 
-	
-
-	<hr>
-
-	<div class="modal fade" id = 'bootstrap_alert'>
+	<div class="modal fade" id = 'paragraph_dialog'>
   	<div class="modal-dialog">
     	<div class="modal-content">
       	<div class="modal-header">
@@ -162,6 +168,37 @@
         	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	        <button type="button" class="btn btn-primary" id = 'save_paragraph'>Save Paragraph</button>
   	    </div>
+    	</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" id = "feedback_dialog">
+	  <div class="modal-dialog">
+  	  <div class="modal-content">
+    	  <div class="modal-header">
+      	  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        	<h4 id = "feedback_title" class="modal-title"></h4>
+	      </div>
+  	    <div class="modal-body">
+    	    <p id = "feedback_paragraph">&hellip;</p>
+
+    	    <div id = "save_username_div">
+    	    	<div class="input-group" id = "username_div">
+  						<span class="input-group-addon" id="basic-addon1">@</span>
+  						<input id = "username_input" type="text" class="form-control" placeholder="Name" aria-describedby="basic-addon1">
+						</div>
+						<div id = "comment_div">
+							<label>Comment:</label>
+							<textarea id = 'feedback_area'></textarea>
+						</div>
+    	    	
+    	    </div>
+
+      	</div>
+	      <div class="modal-footer">
+  	      <button id = "feedback_close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    	    <button id = "feedback_save" type="button" class="btn btn-primary">Save changes</button>
+      	</div>
     	</div><!-- /.modal-content -->
   	</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
