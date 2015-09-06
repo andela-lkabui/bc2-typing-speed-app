@@ -30,7 +30,6 @@ var firebaseHome = new Firebase('https://torrid-torch-3503.firebaseio.com');
 var testText,
 		count = 64,
 		interval,
-		username = "Anonymous",
 		scores;
 
 var mistakes = {
@@ -62,7 +61,7 @@ $(document).ready(function() {
 		}
 		if (paragraphArray.length < 5) {
 			setText("#feedback_title", "Not enough paragraphs to choose from");
-			setText("#feedback_paragraph", "The app needs at least five paragraphs to choose from. Please use the Create Paragraph button to create more paragraphs.");
+			setText("#feedback_paragraph", "The app needs at least five paragraphs to choose from. Please use the Create Paragraph button to create more paragraphs. If you're seeing this message in error, please try again: intermittent network connections can cause this.");
 			$("#save_username_div").hide();
 
 			$("#feedback_dialog").modal("show");
@@ -132,11 +131,9 @@ $(document).ready(function() {
 
 	$("#submit_button").click(function() {
 
-		$("#results_salutation").hide();
-
 		clearInterval(interval);
 
-		var currentCount = $('#counter_paragraph').text();
+		var currentCount = $('#counter_paragraph').val();
 
 		var	testTextArr = testText.split(/\s/),
 				userText = $('#typing_area').val(),
@@ -165,7 +162,6 @@ $(document).ready(function() {
 				testWord = testTextArr[z];
 				userWord = userTextArr[z];
 
-				console.log(testWord);
 				testWordLen = testWord.length,
 				userWordLen = userWord.length;
 
@@ -229,12 +225,7 @@ $(document).ready(function() {
 		$('#gwpm').text(gwpm);
 		$('#nwpm').text(nwpm);
 
-		setText("#feedback_title", "Please give us your name so that we can immortalize you");
-		setText("#feedback_close", "Not Today");
-		setText("#feedback_save", "Immortalize!");
-		$("#feedback_paragraph").hide();
-		$("#save_username_div").show();
-		$("#feedback_dialog").modal("show");
+		var username = prompt("Please give us your name so that we can immortalize you");
 
 		scores = {
 					name: username,
@@ -243,39 +234,62 @@ $(document).ready(function() {
 					total_key_strokes: charsTyped,
 					gwpm: gwpm,
 					nwpm: nwpm
-				};
-
-		
-	});
-
-	$("#feedback_save").click(function() {
-		username = $("#username_input").val();
+		};
 
 		if (username) {
 			
 			firebaseHome.child('scores').push(scores);
 
-			$("#feedback_dialog").hide();
-
 			setText("#feedback_title", "Entry Successful");
-			$("#feedback_close").hide();
-			setText("#feedback_save", "Dismiss!");
-			$("#feedback_paragraph").show();
+			$("#feedback_save").hide();
+
 			$("#save_username_div").hide();
+			$("#feedback_paragraph").show();
+
 			setText("#feedback_paragraph", "Your have been immortalized " + username + ". You may now click on the Leaderboard tab to see how you fare against others.");
+
 			$("#feedback_dialog").modal("show");
-			
-
-			if ( $("#feedback_title").val() === "Entry Successful") {
-				$('#your_scores').tab('show');
-				$("#feedback_dialog").hide();
-			}
-
 		}
+		else {
+			username = "Anonymous";
 
-		$("#results_salutation").text("Hi " + username +". This is what we measured from what you typed.");
-		$("#results_salutation").show();
+			setText("#feedback_title", "Scores not saved");
+			
+			$("#save_username_div").hide();
+			$("#feedback_save").hide();
+			$("#feedback_paragraph").show();
 
+			setText("#feedback_paragraph", "Your scores have not been saved. As a result, you cannot appear on the Leaderboard.");
+			$("#feedback_dialog").modal("show");
+		}
 		
+		setText("#results_salutation", "Hi " + username + ". This is what we measured from your typing test.");
+		$("#your_scores").tab("show");
 	});
+
+	$("#leaderboard").click(function() {
+		firebaseHome.child('scores').orderByValue().on('value', function(snapshot) {
+				var childData,
+						inc = 1,
+						rankTD,
+						nameTD,
+						scoreTD;
+						
+				snapshot.forEach(function(childSnapshot) {
+					childData = childSnapshot.val();
+
+					rankTD = "<td>" + inc + ".</td>";
+					nameTD = "<td>" + childData['name'] + "</td>",
+					scoreTD = "<td>" + childData['nwpm'] + "</td>";
+
+					$('#stats_table_tbody').append("<tr>" + rankTD + nameTD + scoreTD + "</tr>");
+					console.log(inc);
+
+					inc += 1;
+
+				});
+
+			});		
+	});
+
 });
