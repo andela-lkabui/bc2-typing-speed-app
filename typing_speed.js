@@ -25,6 +25,15 @@ var isDisabled = function(selector) {
 	}
 };
 
+var isVisible = function(selector){
+	if ( $(selector).is(':visible') ) {
+		return true;
+	}
+	else {
+		return false;
+	}
+};
+
 var firebaseHome = new Firebase('https://torrid-torch-3503.firebaseio.com');
 
 var testText,
@@ -43,6 +52,8 @@ var correct = {
 $(document).ready(function() {
 
 	$('#load_button').click(function() {
+		setText("#typing_area","");
+		clearInterval(interval);
 
 		var paragraphArray = new Array();
 
@@ -81,52 +92,52 @@ $(document).ready(function() {
 	});
 
 	$("#start_button").click(function() {
+
 		function counter() {
-				count -= 1;
+			count -= 1;
 
-				if (count < 15) {
-					changeCssProperties('#counter_paragraph', 'color', 'orange');
-					if (count < 7) {
-						changeCssProperties('#counter_paragraph', 'color', 'red');
-					}
-					if (count < 0) {
-						$('#counter_paragraph').text("TIME'S UP!");	
-						clearInterval(interval);
-						//disable text field when time is up
-						disabler('#typing_area');
-						return;
-					}
+			if (count < 15) {
+				changeCssProperties('#counter_paragraph', 'color', 'orange');
+				if (count < 7) {
+					changeCssProperties('#counter_paragraph', 'color', 'red');
 				}
-
-				if (count > 60) {
-					switch(count) {
-						case 63:{
-							$('#counter_paragraph').text("READY...");	
-							break;	
-						}
-						case 62:{
-							$('#counter_paragraph').text("SET...");	
-							break;	
-						}
-						case 61:{
-							$('#counter_paragraph').text("GO!");	
-							break;	
-						}
-					}
-				}
-				else {
-					if (isDisabled("#typing_area")) {
-						setText("#typing_area","");
-						enabler("#typing_area");
-					}
-					$('#counter_paragraph').text(count);
+				if (count < 0) {
+					$('#counter_paragraph').text("TIME'S UP!");	
+					clearInterval(interval);
+					//disable text field when time is up
+					disabler('#typing_area');
+					return;
 				}
 			}
-			interval = setInterval(counter, 1000);
-			enabler("#submit_button");
-			
-			//prevent start button from being used again (and reset the counter in the process)
-			disabler("#start_button");
+
+			if (count > 60) {
+				switch(count) {
+					case 63:{
+						$('#counter_paragraph').text("READY...");	
+						break;	
+					}
+					case 62:{
+						$('#counter_paragraph').text("SET...");	
+						break;	
+					}
+					case 61:{
+						$('#counter_paragraph').text("GO!");	
+						break;	
+					}
+				}
+			}
+			else {
+				if (isDisabled("#typing_area")) {
+					enabler("#typing_area");
+				}
+				$('#counter_paragraph').text(count);
+			}
+		}
+		interval = setInterval(counter, 1000);
+		enabler("#submit_button");
+		
+		//prevent start button from being used again (and reset the counter in the process)
+		disabler("#start_button");
 	});
 
 	$("#submit_button").click(function() {
@@ -264,10 +275,13 @@ $(document).ready(function() {
 		}
 		
 		setText("#results_salutation", "Hi " + username + ". This is what we measured from your typing test.");
-		$("#your_scores").tab("show");
 	});
 
 	$("#leaderboard").click(function() {
+
+		$(".stats_table_trow").remove();
+		
+
 		firebaseHome.child('scores').orderByValue().on('value', function(snapshot) {
 				var childData,
 						inc = 1,
@@ -282,9 +296,8 @@ $(document).ready(function() {
 					nameTD = "<td>" + childData['name'] + "</td>",
 					scoreTD = "<td>" + childData['nwpm'] + "</td>";
 
-					$('#stats_table_tbody').append("<tr>" + rankTD + nameTD + scoreTD + "</tr>");
-					console.log(inc);
-
+					$('#stats_table_tbody').append("<tr class = 'stats_table_trow' >" + rankTD + nameTD + scoreTD + "</tr>");
+					
 					inc += 1;
 
 				});
@@ -292,4 +305,7 @@ $(document).ready(function() {
 			});		
 	});
 
+	$('#reset_button').click(function() {
+		location.reload();
+	});
 });
