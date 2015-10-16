@@ -1,27 +1,27 @@
-# INSTRUCTIONS
+# Instructions
 ------------
-Users can go the application to test their typing speed.
+* Users can go the application to test their typing speed.
 
-They click on a button, then they are given a paragraph which they type. once they submit, the application calculates their typing speed.
+* They click on a button, then they are given a paragraph which they type. once they submit, the application calculates their typing speed.
 
-Users can see a leaderboard.
+* Users can see a leaderboard.
 
-# HOW IT WORKS
+# How it works
 ------------
-The application allows to choose one of several paragraphs to type.
+* The application allows to choose one of several paragraphs to type.
 
-Click the start button to start typing (and to start the counter: which counts down from 60).
+* Click the start button to start typing (and to start the counter: which counts down from 60).
 
-Click the submit button when you're done typing.
+* Click the submit button when you're done typing.
 
-Check to see the metrics measured on the table below the leaderboard button.
+* Check to see the metrics measured on the table below the leaderboard button.
 
-To save your score for ranking at the leaderboard, choose to "immortalize" your score. Provide your name as asked.
+* To save your score for ranking at the leaderboard, choose to "immortalize" your score. Provide your name as asked.
 Click on the leaderboard button to confirm your presence! If your name isn't on the list ... err ... try typing faster next time.
 
-Cheers! :)
+	```Cheers! :)```
 
-# LOGIC
+# Logic
 -----
 * The word count is measured against the number of entries you've put in.
 
