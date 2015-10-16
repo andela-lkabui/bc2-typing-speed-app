@@ -275,6 +275,7 @@ $(document).ready(function() {
 		}
 		
 		setText("#results_salutation", "Hi " + username + ". This is what we measured from your typing test.");
+		
 	});
 
 	$("#leaderboard").click(function() {
@@ -282,7 +283,7 @@ $(document).ready(function() {
 		$(".stats_table_trow").remove();
 		
 
-		firebaseHome.child('scores').orderByValue().on('value', function(snapshot) {
+		firebaseHome.child('scores').orderByChild("accuracy").on('value', function(snapshot) {
 				var childData,
 						inc = 1,
 						rankTD,
